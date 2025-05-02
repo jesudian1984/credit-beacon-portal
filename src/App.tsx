@@ -8,6 +8,9 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Eligibility from "./pages/Eligibility";
 
+// Create a placeholder loan type page component
+import LoanTypePage from "./pages/LoanTypePage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -19,6 +22,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/eligibility" element={<Eligibility />} />
+          
+          {/* Loan type routes */}
+          <Route path="/loans" element={<LoanTypePage title="All Loans" />} />
+          <Route path="/loans/home" element={<LoanTypePage title="Home Loans" />} />
+          <Route path="/loans/personal" element={<LoanTypePage title="Personal Loans" />} />
+          <Route path="/loans/business" element={<LoanTypePage title="Business Loans" />} />
+          <Route path="/loans/credit-cards" element={<LoanTypePage title="Credit Cards" />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
