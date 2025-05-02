@@ -15,7 +15,7 @@ const Eligibility = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl font-bold mb-6">Loan Eligibility Calculator</h1>
             <p className="text-xl max-w-2xl mx-auto">
-              Check your eligibility for various loan products and get personalized rate offers in just minutes.
+              Check your eligibility for various loan products based on your income, employment, and credit profile.
             </p>
           </div>
         </div>
@@ -37,9 +37,9 @@ const Eligibility = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-medium text-gray-900">Enter Your Details</h3>
+                      <h3 className="text-xl font-medium text-gray-900">Income Assessment</h3>
                       <p className="mt-2 text-gray-600">
-                        Provide basic information about the loan amount, term, and type you're looking for.
+                        We evaluate your monthly income and existing financial obligations to determine your repayment capacity.
                       </p>
                     </div>
                   </div>
@@ -51,9 +51,9 @@ const Eligibility = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-medium text-gray-900">Get Instant Results</h3>
+                      <h3 className="text-xl font-medium text-gray-900">Employment Profile</h3>
                       <p className="mt-2 text-gray-600">
-                        Our calculator instantly shows your eligibility status and estimated monthly payments.
+                        Your company category affects your eligibility. Top-tier companies (Category A) typically qualify for higher loan amounts and better terms.
                       </p>
                     </div>
                   </div>
@@ -65,9 +65,9 @@ const Eligibility = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-medium text-gray-900">Compare Personalized Offers</h3>
+                      <h3 className="text-xl font-medium text-gray-900">FOIR Calculation</h3>
                       <p className="mt-2 text-gray-600">
-                        Browse through pre-qualified loan offers from our lending partners.
+                        Fixed Obligation to Income Ratio (FOIR) measures your total debt obligations against your income. The maximum allowed FOIR varies by loan type and company category.
                       </p>
                     </div>
                   </div>
@@ -79,9 +79,9 @@ const Eligibility = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-medium text-gray-900">Apply Securely</h3>
+                      <h3 className="text-xl font-medium text-gray-900">Loan Term Impact</h3>
                       <p className="mt-2 text-gray-600">
-                        Choose the best offer and complete your application with minimal documentation.
+                        Your chosen loan tenor affects your monthly EMI and overall eligibility. Longer terms mean lower EMIs but may affect total interest paid.
                       </p>
                     </div>
                   </div>
@@ -96,30 +96,30 @@ const Eligibility = () => {
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h3>
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">Does checking my eligibility affect my credit score?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">What is FOIR and how does it affect my loan eligibility?</h4>
                     <p className="mt-2 text-gray-600">
-                      No, our eligibility calculator performs a soft credit check that doesn't impact your credit score.
+                      FOIR (Fixed Obligation to Income Ratio) is the proportion of your monthly income that goes towards repaying debts. Lenders typically cap this at 40-75% depending on your profile. A lower FOIR indicates better repayment capacity and higher loan eligibility.
                     </p>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">What information do I need to provide for the eligibility check?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">How does my company category affect my loan eligibility?</h4>
                     <p className="mt-2 text-gray-600">
-                      Basic details like loan amount, purpose, income, employment information, and existing debts.
+                      Lenders classify employers into categories (A to D) based on company stability and reputation. Employees of Category A companies (like established MNCs) typically get higher loan amounts, better rates, and higher FOIR limits compared to other categories.
                     </p>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">How accurate is the eligibility result?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">Why is my eligibility amount different for different types of loans?</h4>
                     <p className="mt-2 text-gray-600">
-                      Our calculator provides a high-accuracy preliminary assessment based on the information you provide and our lending partners' criteria.
+                      Different loan types carry different risk levels for lenders. Home loans typically allow higher eligibility amounts and FOIR limits due to the property collateral, while unsecured loans like personal loans have stricter eligibility criteria.
                     </p>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">What factors determine my loan eligibility?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">How accurate is the eligibility calculator?</h4>
                     <p className="mt-2 text-gray-600">
-                      Key factors include your credit score, income, employment stability, existing debt obligations, and the loan amount requested.
+                      Our calculator provides a close estimate based on standard industry parameters. However, actual eligibility may vary based on your credit score, additional income sources, and lender-specific policies.
                     </p>
                   </div>
                 </div>
