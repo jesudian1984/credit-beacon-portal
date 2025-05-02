@@ -11,7 +11,7 @@ const loanTypes = [
     ),
     title: "Home Loans",
     description: "Purchase your dream home with competitive interest rates and flexible repayment terms.",
-    rate: "From 6.75% p.a.",
+    rate: "From 8.40% p.a.",
     link: "/loans/home",
   },
   {
@@ -22,7 +22,7 @@ const loanTypes = [
     ),
     title: "Personal Loans",
     description: "Get funds for your personal needs with quick approval and minimal documentation.",
-    rate: "From 9.5% p.a.",
+    rate: "From 10.35% p.a.",
     link: "/loans/personal",
   },
   {
@@ -33,7 +33,7 @@ const loanTypes = [
     ),
     title: "Business Loans",
     description: "Expand your business or manage cash flow with our business financing solutions.",
-    rate: "From 8.25% p.a.",
+    rate: "From 16.00% p.a.",
     link: "/loans/business",
   },
   {

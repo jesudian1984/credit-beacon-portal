@@ -17,14 +17,14 @@ const LoanCalculator = () => {
   const [totalInterest, setTotalInterest] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(true);
   
-  // Loan type configuration
+  // Loan type configuration with updated interest rates
   const loanConfig = {
     personal: {
       minAmount: 10000,
       maxAmount: 500000,
       minTerm: 12,
       maxTerm: 60,
-      baseRate: 10,
+      baseRate: 10.35,
       amountStep: 10000,
     },
     home: {
@@ -32,7 +32,7 @@ const LoanCalculator = () => {
       maxAmount: 10000000,
       minTerm: 60,
       maxTerm: 360,
-      baseRate: 7,
+      baseRate: 8.40,
       amountStep: 100000,
     },
     business: {
@@ -40,7 +40,7 @@ const LoanCalculator = () => {
       maxAmount: 5000000,
       minTerm: 12,
       maxTerm: 84,
-      baseRate: 8,
+      baseRate: 16.00,
       amountStep: 100000,
     }
   };
