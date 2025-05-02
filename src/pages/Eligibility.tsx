@@ -15,7 +15,7 @@ const Eligibility = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl font-bold mb-6">Loan Eligibility Calculator</h1>
             <p className="text-xl max-w-2xl mx-auto">
-              Check your eligibility for various loan products based on your income, employment, and credit profile.
+              Check your eligibility for various loan products based on your income, employment type, and credit profile.
             </p>
           </div>
         </div>
@@ -53,7 +53,7 @@ const Eligibility = () => {
                     <div className="ml-4">
                       <h3 className="text-xl font-medium text-gray-900">Employment Profile</h3>
                       <p className="mt-2 text-gray-600">
-                        Your company category affects your eligibility. Top-tier companies (Category A) typically qualify for higher loan amounts and better terms.
+                        Your employment type (Government, Railway, Defense, Medical, etc.) and company category affects your eligibility. Different categories qualify for different multipliers.
                       </p>
                     </div>
                   </div>
@@ -65,9 +65,9 @@ const Eligibility = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-medium text-gray-900">FOIR Calculation</h3>
+                      <h3 className="text-xl font-medium text-gray-900">Multiplier System</h3>
                       <p className="mt-2 text-gray-600">
-                        Fixed Obligation to Income Ratio (FOIR) measures your total debt obligations against your income. The maximum allowed FOIR varies by loan type and company category.
+                        Banks use income multipliers based on your employment type, income band, and loan tenure. Our calculator uses industry-standard multipliers similar to major banks like HDFC.
                       </p>
                     </div>
                   </div>
@@ -79,9 +79,9 @@ const Eligibility = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-medium text-gray-900">Loan Term Impact</h3>
+                      <h3 className="text-xl font-medium text-gray-900">Risk Profile Impact</h3>
                       <p className="mt-2 text-gray-600">
-                        Your chosen loan tenor affects your monthly EMI and overall eligibility. Longer terms mean lower EMIs but may affect total interest paid.
+                        Your risk band (based on credit score and history) affects your eligibility. Higher risk bands like A1-A9 may qualify for special multipliers and higher loan amounts.
                       </p>
                     </div>
                   </div>
@@ -103,23 +103,23 @@ const Eligibility = () => {
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">How does my company category affect my loan eligibility?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">What are loan multipliers and how are they used?</h4>
                     <p className="mt-2 text-gray-600">
-                      Lenders classify employers into categories (A to D) based on company stability and reputation. Employees of Category A companies (like established MNCs) typically get higher loan amounts, better rates, and higher FOIR limits compared to other categories.
+                      Loan multipliers are values used by banks to determine your maximum eligible loan amount. The multiplier is applied to your monthly income (e.g., if your income is ₹50,000 and the multiplier is 20, your eligibility would be ₹10,00,000). Different multipliers apply based on employment type, salary, and tenure.
                     </p>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">Why is my eligibility amount different for different types of loans?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">How does my employment type affect my loan eligibility?</h4>
                     <p className="mt-2 text-gray-600">
-                      Different loan types carry different risk levels for lenders. Home loans typically allow higher eligibility amounts and FOIR limits due to the property collateral, while unsecured loans like personal loans have stricter eligibility criteria.
+                      Banks categorize borrowers based on employment stability. Government employees, military personnel, and employees of large corporations (Super Cat A, Cat A) typically get higher multipliers. Medical professionals, educators, and employees of smaller firms receive lower multipliers reflecting the perceived risk.
                     </p>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">How accurate is the eligibility calculator?</h4>
+                    <h4 className="text-lg font-medium text-gray-900">What are risk bands in loan eligibility?</h4>
                     <p className="mt-2 text-gray-600">
-                      Our calculator provides a close estimate based on standard industry parameters. However, actual eligibility may vary based on your credit score, additional income sources, and lender-specific policies.
+                      Risk bands (like A1-A9, A1-B6, D1) are categories based on your credit score and history. Better risk bands may qualify for higher multipliers, even within the same employment category. These are used by banks to fine-tune eligibility for borrowers with exceptional credit profiles.
                     </p>
                   </div>
                 </div>

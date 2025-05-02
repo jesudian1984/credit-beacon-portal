@@ -8,9 +8,18 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Calculator } from "lucide-react";
+import { Calculator, InfoIcon } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
+// Define types for multiplier tables
+interface MultiplierValue {
+  [key: string]: number;
+}
+
+interface MultiplierCategory {
+  [key: string]: MultiplierValue;
+}
 
 const LoanCalculator = () => {
   const [loanType, setLoanType] = useState<string>("personal");
@@ -22,13 +31,15 @@ const LoanCalculator = () => {
   const [totalInterest, setTotalInterest] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(true);
   
-  // New state for detailed eligibility
+  // Enhanced state for detailed eligibility
   const [monthlySalary, setMonthlySalary] = useState<number>(50000);
   const [companyCategory, setCompanyCategory] = useState<string>("A");
   const [existingObligations, setExistingObligations] = useState<number>(0);
   const [foir, setFoir] = useState<number>(0.5); // FOIR - Fixed Obligation to Income Ratio
   const [eligibilityAmount, setEligibilityAmount] = useState<number>(0);
   const [eligibilityMessage, setEligibilityMessage] = useState<string>("");
+  const [employmentType, setEmploymentType] = useState<string>("GOVT");
+  const [riskBand, setRiskBand] = useState<string>("NORMAL");
   
   // Loan type configuration with updated interest rates
   const loanConfig = {
@@ -76,6 +87,187 @@ const LoanCalculator = () => {
     }
   };
   
+  // HDFC Bank Multiplier Tables
+  const multiplierTables = {
+    // Government (GA/GB/GC)
+    GOVT: {
+      NORMAL: {
+        "below25K": {
+          12: 5, 24: 9, 36: 11, 48: 14, 60: 0
+        },
+        "25K-38K": {
+          12: 5, 24: 9, 36: 11, 48: 14, 60: 0 
+        },
+        "38K-50K": {
+          12: 6, 24: 10, 36: 15, 48: 17, 60: 24
+        },
+        "50K-75K": {
+          12: 7, 24: 12, 36: 16, 48: 20, 60: 24
+        },
+        "above75K": {
+          12: 7, 24: 13, 36: 18, 48: 23, 60: 27
+        }
+      }
+    },
+    // Government Kicker
+    GOVT_KICKER: {
+      RISK_BAND_A1_A9: {
+        "50K-75K": {
+          12: 8, 24: 15, 36: 21, 48: 25, 60: 30
+        },
+        "above75K": {
+          12: 8, 24: 15, 36: 21, 48: 25, 60: 30
+        }
+      },
+      RISK_BAND_A1_B2: {
+        "75K+": {
+          12: 6, 24: 10, 36: 15, 48: 20, 60: 24
+        }
+      }
+    },
+    // Government Nurse
+    GOVT_NURSE: {
+      NORMAL: {
+        "40K-50K": {
+          12: 6, 24: 10, 36: 15, 48: 17, 60: 20
+        },
+        "50K-75K": {
+          12: 7, 24: 12, 36: 16, 48: 20, 60: 24
+        },
+        "above75K": {
+          12: 7, 24: 13, 36: 18, 48: 21, 60: 25
+        }
+      },
+      A1_B9_D1: {
+        "above75K": {
+          12: 7, 24: 15, 36: 21, 48: 25, 60: 30
+        }
+      }
+    },
+    // Super Category A (Government/Railway/Defense)
+    SUPER_CAT_A: {
+      NORMAL: {
+        "below35K": {
+          12: 5, 24: 10, 36: 14, 48: 16, 60: 19
+        },
+        "35K-50K": {
+          12: 6, 24: 10, 36: 16, 48: 20, 60: 22
+        },
+        "50K-75K": {
+          12: 7, 24: 13, 36: 18, 48: 23, 60: 25
+        },
+        "above75K": {
+          12: 7, 24: 13, 36: 18, 48: 23, 60: 27
+        }
+      },
+      RISK_BAND: {
+        "A1-B6_D1_MLB": {
+          12: 7, 24: 13, 36: 18, 48: 26, 60: 30
+        },
+        "A1-B9_D1_MLB": {
+          12: 7, 24: 15, 36: 21, 48: 27, 60: 30
+        }
+      }
+    },
+    // Category A
+    CAT_A: {
+      NORMAL: {
+        "below35K": {
+          12: 5, 24: 10, 36: 14, 48: 16, 60: 19
+        },
+        "35K-50K": {
+          12: 6, 24: 10, 36: 16, 48: 18, 60: 20
+        },
+        "50K-75K": {
+          12: 7, 24: 13, 36: 18, 48: 21, 60: 23
+        },
+        "above75K": {
+          12: 7, 24: 13, 36: 18, 48: 22, 60: 24
+        }
+      },
+      RISK_BAND: {
+        "A1-B6_D1_MLB": {
+          12: 7, 24: 13, 36: 18, 48: 24, 60: 26
+        },
+        "A1-B6_D1_MLB_HIGH": {
+          12: 7, 24: 13, 36: 18, 48: 25, 60: 28
+        }
+      }
+    },
+    // Category B
+    CAT_B: {
+      NORMAL: {
+        "below35K": {
+          12: 5, 24: 9, 36: 10, 48: 12, 60: 0
+        },
+        "35K-50K": {
+          12: 5, 24: 9, 36: 10, 48: 13, 60: 15
+        },
+        "50K-75K": {
+          12: 6, 24: 10, 36: 14, 48: 17, 60: 20
+        },
+        "above75K": {
+          12: 6, 24: 13, 36: 16, 48: 18, 60: 22
+        }
+      },
+      RISK_BAND: {
+        "50K-75K": {
+          12: 7, 24: 11, 36: 14, 48: 20, 60: 23
+        },
+        "above75K": {
+          12: 7, 24: 13, 36: 18, 48: 23, 60: 27
+        }
+      }
+    },
+    // Category C
+    CAT_C: {
+      NORMAL: {
+        "below35K": {
+          12: 5, 24: 7, 36: 9, 48: 11, 60: 13
+        },
+        "35K-50K": {
+          12: 5, 24: 7, 36: 9, 48: 11, 60: 13
+        },
+        "50K-75K": {
+          12: 6, 24: 11, 36: 15, 48: 18, 60: 20
+        },
+        "above75K": {
+          12: 6, 24: 12, 36: 16, 48: 19, 60: 21
+        }
+      },
+      KICKER: {
+        "50K-75K": {
+          12: 7, 24: 13, 36: 18, 48: 21, 60: 22
+        },
+        "above75K": {
+          12: 7, 24: 13, 36: 18, 48: 22, 60: 25
+        }
+      }
+    },
+    // Category Medical/Education
+    CAT_MED_EDU: {
+      NORMAL: {
+        "35K-50K": {
+          12: 5, 24: 9, 36: 11, 48: 13, 60: 15
+        },
+        "50K-75K": {
+          12: 5, 24: 9, 36: 13, 48: 15, 60: 18
+        }
+      }
+    },
+    // Category D/E
+    CAT_D_E: {
+      NORMAL: {
+        "50K-75K": {
+          12: 3, 24: 6, 36: 8, 48: 0, 60: 0
+        },
+        "above75K": {
+          12: 4, 24: 7, 36: 9, 48: 11, 60: 0
+        }
+      }
+    }
+  };
+  
   // Format currency
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-IN', { 
@@ -99,6 +291,58 @@ const LoanCalculator = () => {
     calculateEligibility();
   };
   
+  // Determine salary band for multiplier lookup
+  const getSalaryBand = (salary: number): string => {
+    if (salary < 25000) return "below25K";
+    if (salary < 35000) return "below35K";
+    if (salary < 38000) return "25K-38K";
+    if (salary < 40000) return "35K-50K"; // overlap handling
+    if (salary < 50000) return "40K-50K";
+    if (salary < 75000) return "50K-75K";
+    return "above75K";
+  };
+  
+  // Get multiplier based on employment type, salary band, risk band, and tenure
+  const getMultiplier = (
+    employmentType: string, 
+    salaryBand: string, 
+    loanTerm: number, 
+    riskBandType: string = "NORMAL"
+  ): number => {
+    try {
+      // Round loan term to nearest available option
+      const termOptions = [12, 24, 36, 48, 60];
+      const closestTerm = termOptions.reduce((prev, curr) => 
+        Math.abs(curr - loanTerm) < Math.abs(prev - loanTerm) ? curr : prev
+      );
+      
+      // Get the multiplier table for employment type
+      const empTable = multiplierTables[employmentType as keyof typeof multiplierTables];
+      if (!empTable) return 0;
+      
+      // Get the risk band table
+      const riskTable = empTable[riskBandType as keyof typeof empTable];
+      if (!riskTable) return 0;
+      
+      // Find the closest salary band if exact match not found
+      const salaryRanges = Object.keys(riskTable);
+      const matchedBand = salaryRanges.find(range => range === salaryBand) || 
+                           salaryRanges.find(range => 
+                             range.includes(salaryBand.split('-')[0]) || 
+                             range.includes('above') || 
+                             range.toLowerCase().includes('k')
+                           );
+      
+      if (!matchedBand) return 0;
+      
+      const termMultipliers = riskTable[matchedBand];
+      return termMultipliers[closestTerm] || 0;
+    } catch (error) {
+      console.error("Error calculating multiplier:", error);
+      return 0;
+    }
+  };
+  
   // Calculate eligibility based on company category, salary, obligations, tenor and FOIR
   const calculateEligibility = () => {
     const currentConfig = loanConfig[loanType as keyof typeof loanConfig];
@@ -110,9 +354,21 @@ const LoanCalculator = () => {
     // Calculate maximum EMI allowed based on FOIR
     const maxEmi = monthlySalary * maxFoir - existingObligations;
     
-    // Calculate maximum loan eligibility using the EMI formula
+    // Get appropriate salary band
+    const salaryBand = getSalaryBand(monthlySalary);
+    
+    // Get multiplier based on employment type, salary band and loan term
+    const multiplier = getMultiplier(employmentType, salaryBand, loanTerm, riskBand);
+    
+    // Calculate eligibility using multiplier (traditional bank method)
+    const multiplierEligibility = monthlySalary * multiplier;
+    
+    // Calculate maximum loan eligibility using the EMI formula (alternative method)
     const monthlyRate = interestRate / 100 / 12;
-    const maxLoanEligibility = maxEmi * (1 - Math.pow(1 + monthlyRate, -loanTerm)) / monthlyRate;
+    const emiBasedEligibility = maxEmi * (1 - Math.pow(1 + monthlyRate, -loanTerm)) / monthlyRate;
+    
+    // Use the lower of the two eligibility calculations to be conservative
+    const maxLoanEligibility = Math.min(multiplierEligibility, emiBasedEligibility);
     
     setEligibilityAmount(Math.floor(maxLoanEligibility));
     
@@ -180,7 +436,22 @@ const LoanCalculator = () => {
               </div>
               
               <div>
-                <Label htmlFor="company-category">Company Category</Label>
+                <Label htmlFor="company-category" className="flex items-center gap-2">
+                  Company Category
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <InfoIcon className="h-4 w-4 text-gray-500" />
+                      </TooltipTrigger>
+                      <TooltipContent className="w-80 p-2">
+                        <p>A - Top Tier (MNC/Listed Companies)</p>
+                        <p>B - Mid Tier (Large Private Companies)</p>
+                        <p>C - Regular (SMEs/Government)</p>
+                        <p>D - Others (Small Business/Self-employed)</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </Label>
                 <Select 
                   value={companyCategory} 
                   onValueChange={setCompanyCategory}
@@ -209,9 +480,52 @@ const LoanCalculator = () => {
               </div>
               
               <div>
+                <Label htmlFor="employment-type">Employment Type</Label>
+                <Select 
+                  value={employmentType} 
+                  onValueChange={setEmploymentType}
+                >
+                  <SelectTrigger id="employment-type" className="mt-1">
+                    <SelectValue placeholder="Select employment type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="GOVT">Government (GA/GB/GC)</SelectItem>
+                    <SelectItem value="GOVT_KICKER">Government - Kicker</SelectItem>
+                    <SelectItem value="GOVT_NURSE">Government - Nurse</SelectItem>
+                    <SelectItem value="SUPER_CAT_A">Super Category A</SelectItem>
+                    <SelectItem value="CAT_A">Category A</SelectItem>
+                    <SelectItem value="CAT_B">Category B</SelectItem>
+                    <SelectItem value="CAT_C">Category C</SelectItem>
+                    <SelectItem value="CAT_MED_EDU">Medical/Education</SelectItem>
+                    <SelectItem value="CAT_D_E">Category D/E</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="risk-band">Risk Profile</Label>
+                <Select 
+                  value={riskBand} 
+                  onValueChange={setRiskBand}
+                >
+                  <SelectTrigger id="risk-band" className="mt-1">
+                    <SelectValue placeholder="Select risk profile" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="NORMAL">Normal</SelectItem>
+                    <SelectItem value="RISK_BAND">Risk Band (A1-B6)</SelectItem>
+                    <SelectItem value="RISK_BAND_A1_A9">Risk Band A1-A9</SelectItem>
+                    <SelectItem value="RISK_BAND_A1_B2">Risk Band A1-B2</SelectItem>
+                    <SelectItem value="A1_B9_D1">Risk Band A1-B9 & D1</SelectItem>
+                    <SelectItem value="KICKER">Kicker</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="md:col-span-2">
                 <Button 
                   onClick={handleCheckEligibility} 
-                  className="w-full md:w-auto mt-6"
+                  className="w-full md:w-auto mt-6 bg-brandblue-600 hover:bg-brandblue-700"
                 >
                   Check My Eligibility
                 </Button>
