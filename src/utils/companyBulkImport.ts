@@ -12,7 +12,7 @@ export function addCompaniesFromBulkData(companies: Array<{name: string, categor
   
   companies.forEach(company => {
     if (company.name && company.category) {
-      // Convert company name to proper case for display
+      // Convert company name to proper case for display but store as lowercase
       const displayName = company.name.split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(' ');
@@ -23,13 +23,16 @@ export function addCompaniesFromBulkData(companies: Array<{name: string, categor
       if (!(normalizedName in COMPANY_MAPPINGS)) {
         // We need to cast COMPANY_MAPPINGS to a non-readonly type to modify it
         (COMPANY_MAPPINGS as Record<string, CompanyCategory>)[normalizedName] = company.category;
+        console.log(`Added company: ${displayName} (${company.category})`);
         addedCount++;
+      } else {
+        console.log(`Company already exists: ${displayName}`);
       }
     }
   });
   
-  // Log the updated mappings for debugging
-  console.log('Updated company mappings:', COMPANY_MAPPINGS);
+  // Log the total number of mappings
+  console.log(`Total companies in database: ${Object.keys(COMPANY_MAPPINGS).length}`);
   
   return addedCount;
 }

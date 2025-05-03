@@ -28,11 +28,19 @@ export const parseExcelFile = async (file: File): Promise<ExcelCompanyData[]> =>
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
         console.log('Raw Excel data:', jsonData);
         
-        // Map the data to our expected format
+        // Map the data to our expected format with flexible column name matching
         const companyData = jsonData.map((row: any) => {
-          // Try to find company name and category in different possible column names
-          const name = row.CompanyName || row.Company || row.Name || row['Company Name'] || '';
-          let category = row.Category || row.CompanyCategory || row['Company Category'] || 'D';
+          // Try to find company name in different possible column names (case-insensitive)
+          const nameKey = Object.keys(row).find(key => 
+            /company|name|organization|firm/i.test(key)
+          );
+          const name = nameKey ? row[nameKey] : '';
+          
+          // Try to find category in different possible column names (case-insensitive)
+          const categoryKey = Object.keys(row).find(key => 
+            /category|tier|class|grade|rating/i.test(key)
+          );
+          let category = categoryKey ? row[categoryKey] : 'D';
           
           // Validate and normalize category
           if (typeof category === 'string') {
@@ -45,7 +53,7 @@ export const parseExcelFile = async (file: File): Promise<ExcelCompanyData[]> =>
           }
           
           return {
-            name: name ? name.toString().trim() : '',
+            name: name ? String(name).trim() : '',
             category: category as CompanyCategory
           };
         }).filter(item => item.name); // Filter out items with no name
