@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -367,16 +366,28 @@ const LoanCalculator = () => {
     }
   };
   
+  // Get FOIR based on salary range as per user's requirement
+  const getFoirBySalary = (salary: number): number => {
+    if (salary < 40000) return 0.5;  // 50% for salary less than 40k
+    if (salary < 50000) return 0.6;  // 60% for salary between 40k to 50k
+    return 0.7;                      // 70% for salary above 50k
+  };
+  
   // Calculate eligibility based on company category, salary, obligations, tenor and FOIR
   const calculateEligibility = () => {
     const currentConfig = loanConfig[loanType as keyof typeof loanConfig];
-    const maxFoir = currentConfig.maxFoirByCategory[companyCategory as keyof typeof currentConfig.maxFoirByCategory];
+    
+    // Get salary-based FOIR instead of company category based FOIR
+    const salaryBasedFoir = getFoirBySalary(monthlySalary);
+    
+    // Set the current FOIR value for display purposes
+    setFoir(salaryBasedFoir);
     
     // Calculate monthly available income after existing obligations
     const availableIncome = monthlySalary - existingObligations;
     
-    // Calculate maximum EMI allowed based on FOIR
-    const maxEmi = monthlySalary * maxFoir - existingObligations;
+    // Calculate maximum EMI allowed based on salary-based FOIR
+    const maxEmi = monthlySalary * salaryBasedFoir - existingObligations;
     
     // Get appropriate salary band
     const salaryBand = getSalaryBand(monthlySalary);
@@ -465,6 +476,12 @@ const LoanCalculator = () => {
                   className="mt-1"
                   required
                 />
+                <div className="text-xs text-gray-500 mt-1">
+                  <span className="font-semibold">FOIR eligibility: </span>
+                  {monthlySalary < 40000 ? "50% of income" : 
+                   monthlySalary < 50000 ? "60% of income" : 
+                   "70% of income"}
+                </div>
               </div>
               
               <div>
@@ -740,6 +757,11 @@ const LoanCalculator = () => {
                         disabled 
                       />
                     </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center mt-3">
+                    <span className="text-gray-800 font-medium">FOIR Applied:</span>
+                    <span className="font-semibold">{Math.round(foir * 100)}%</span>
                   </div>
                   
                   <div className={`mt-4 p-3 rounded text-sm ${isEligible ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
