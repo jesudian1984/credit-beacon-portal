@@ -33,9 +33,11 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
               Contact
             </Link>
-            <Button size="sm" className="ml-4 bg-brandblue-600 hover:bg-brandblue-700">
-              Apply Now
-            </Button>
+            <Link to="/apply">
+              <Button size="sm" className="ml-4 bg-brandblue-600 hover:bg-brandblue-700">
+                Apply Now
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -89,9 +91,11 @@ const Navbar = () => {
           <Link to="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
             Contact
           </Link>
-          <Button className="w-full mt-3 bg-brandblue-600 hover:bg-brandblue-700">
-            Apply Now
-          </Button>
+          <Link to="/apply" className="block w-full">
+            <Button className="w-full mt-3 bg-brandblue-600 hover:bg-brandblue-700">
+              Apply Now
+            </Button>
+          </Link>
         </div>
       </div>
     </nav>

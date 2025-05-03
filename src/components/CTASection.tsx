@@ -11,12 +11,21 @@ const CTASection = () => {
           Check your eligibility, compare rates, and apply with confidence. It only takes a few minutes.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" variant="default" className="bg-white text-brandblue-600 hover:bg-gray-100">
-            <Link to="/eligibility">Check Eligibility</Link>
-          </Button>
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-brandblue-700">
-            <Link to="/compare">Compare Rates</Link>
-          </Button>
+          <Link to="/eligibility" className="block">
+            <Button size="lg" variant="default" className="bg-white text-brandblue-600 hover:bg-gray-100 w-full sm:w-auto">
+              Check Eligibility
+            </Button>
+          </Link>
+          <Link to="/compare" className="block">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-brandblue-700 w-full sm:w-auto">
+              Compare Rates
+            </Button>
+          </Link>
+          <Link to="/apply" className="block">
+            <Button size="lg" variant="default" className="bg-brandgreen-500 text-white hover:bg-brandgreen-600 w-full sm:w-auto">
+              Apply Now
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

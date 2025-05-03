@@ -446,6 +446,15 @@ const LoanCalculator = () => {
     calculateLoan();
   }, [loanAmount, interestRate, loanTerm, loanType]);
 
+  // Add a new function to handle the apply now button
+  const handleApplyNow = () => {
+    if (isEligible) {
+      window.location.href = '/apply';
+    } else {
+      toast.error("You are not eligible for this loan. Please adjust your requirements.");
+    }
+  };
+
   return (
     <div className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -776,6 +785,7 @@ const LoanCalculator = () => {
             <Button 
               className={`w-full sm:w-auto ${isEligible ? "bg-brandblue-600 hover:bg-brandblue-700" : "bg-gray-400 cursor-not-allowed"}`}
               disabled={!isEligible}
+              onClick={handleApplyNow}
             >
               Apply Now
             </Button>
