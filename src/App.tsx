@@ -10,6 +10,7 @@ import Eligibility from "./pages/Eligibility";
 import Admin from "./pages/Admin";
 import Apply from "./pages/Apply";
 import Contact from "./pages/Contact";
+import TalkToExpert from "./pages/TalkToExpert";
 
 // Create a placeholder loan type page component
 import LoanTypePage from "./pages/LoanTypePage";
@@ -31,7 +32,8 @@ const App = () => (
           <Route path="/compare" element={<Navigate to="/bank-comparison" />} />
           <Route path="/bank-comparison" element={<BankComparison />} />
           <Route path="/apply" element={<Apply />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<Navigate to="/talk-to-expert" />} />
+          <Route path="/talk-to-expert" element={<TalkToExpert />} />
           
           {/* Loan type routes */}
           <Route path="/loans" element={<LoanTypePage title="All Loans" />} />
