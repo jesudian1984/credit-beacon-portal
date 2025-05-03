@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,14 +20,13 @@ const Apply = () => {
     email: "",
     phone: "",
     dateOfBirth: "",
-    panCard: "",
+    companyName: "",
+    monthlySalary: "",
     address: "",
     city: "",
     state: "",
     pincode: "",
     employmentType: "salaried",
-    companyName: "",
-    monthlyIncome: "",
     workExperience: "",
     loanType: "personal",
     loanAmount: "500000",
@@ -75,7 +73,7 @@ const Apply = () => {
         return false;
       }
     } else if (step === 3) {
-      if (!formData.employmentType || !formData.companyName || !formData.monthlyIncome) {
+      if (!formData.employmentType || !formData.companyName || !formData.monthlySalary) {
         toast.error("Please fill all required fields");
         return false;
       }
@@ -247,13 +245,31 @@ const Apply = () => {
                     </div>
 
                     <div className="grid gap-3">
-                      <Label htmlFor="panCard">PAN Card Number</Label>
+                      <Label htmlFor="companyName">
+                        Company Name <span className="text-red-500">*</span>
+                      </Label>
                       <Input
-                        id="panCard"
-                        name="panCard"
-                        value={formData.panCard}
+                        id="companyName"
+                        name="companyName"
+                        value={formData.companyName}
                         onChange={handleChange}
-                        placeholder="Enter your PAN"
+                        placeholder="Enter your company name"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid gap-3">
+                      <Label htmlFor="monthlySalary">
+                        Monthly Salary (₹) <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="monthlySalary"
+                        name="monthlySalary"
+                        type="number"
+                        value={formData.monthlySalary}
+                        onChange={handleChange}
+                        placeholder="Enter your monthly salary"
+                        required
                       />
                     </div>
                   </div>
@@ -370,35 +386,6 @@ const Apply = () => {
                           <SelectItem value="retired">Retired</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="companyName">
-                        Company/Business Name <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="companyName"
-                        name="companyName"
-                        value={formData.companyName}
-                        onChange={handleChange}
-                        placeholder="Enter your company name"
-                        required
-                      />
-                    </div>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="monthlyIncome">
-                        Monthly Income (₹) <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="monthlyIncome"
-                        name="monthlyIncome"
-                        type="number"
-                        value={formData.monthlyIncome}
-                        onChange={handleChange}
-                        placeholder="Enter your monthly income"
-                        required
-                      />
                     </div>
 
                     <div className="grid gap-3">
