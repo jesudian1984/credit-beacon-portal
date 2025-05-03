@@ -114,11 +114,11 @@ const BankComparison = () => {
                                       <div className="text-xs text-gray-500">{bank.type} {bank.category ? `• ${bank.category}` : ''}</div>
                                     </div>
                                   </TableCell>
-                                  <TableCell>{bank[loanType as keyof BankLoanData]?.interestRate || "N/A"}</TableCell>
-                                  <TableCell>{bank[loanType as keyof BankLoanData]?.processingFee || "N/A"}</TableCell>
-                                  <TableCell>{bank[loanType as keyof BankLoanData]?.maxLoanAmount || "N/A"}</TableCell>
-                                  <TableCell>{bank[loanType as keyof BankLoanData]?.maxTenure || "N/A"}</TableCell>
-                                  <TableCell>{bank[loanType as keyof BankLoanData]?.prepaymentPenalty || "N/A"}</TableCell>
+                                  <TableCell>{bank[loanType] && bank[loanType].interestRate || "N/A"}</TableCell>
+                                  <TableCell>{bank[loanType] && bank[loanType].processingFee || "N/A"}</TableCell>
+                                  <TableCell>{bank[loanType] && bank[loanType].maxLoanAmount || "N/A"}</TableCell>
+                                  <TableCell>{bank[loanType] && bank[loanType].maxTenure || "N/A"}</TableCell>
+                                  <TableCell>{bank[loanType] && bank[loanType].prepaymentPenalty || "N/A"}</TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>
@@ -142,20 +142,22 @@ const BankComparison = () => {
                             <div className="space-y-4 text-sm">
                               <div>
                                 <div className="font-semibold text-gray-700">Eligibility Criteria</div>
-                                <div className="mt-1">{bank[loanType as keyof BankLoanData]?.eligibilityCriteria || "N/A"}</div>
+                                <div className="mt-1">{bank[loanType] && bank[loanType].eligibilityCriteria || "N/A"}</div>
                               </div>
                               
                               <div>
                                 <div className="font-semibold text-gray-700">Turnaround Time</div>
-                                <div className="mt-1">{bank[loanType as keyof BankLoanData]?.turnaroundTime || "N/A"}</div>
+                                <div className="mt-1">{bank[loanType] && bank[loanType].turnaroundTime || "N/A"}</div>
                               </div>
                               
                               <div>
                                 <div className="font-semibold text-gray-700">Special Features</div>
                                 <ul className="mt-1 list-disc pl-4">
-                                  {bank[loanType as keyof BankLoanData]?.specialFeatures?.map((feature, index) => (
-                                    <li key={index}>{feature}</li>
-                                  )) || "N/A"}
+                                  {bank[loanType] && bank[loanType].specialFeatures ? 
+                                    bank[loanType].specialFeatures.map((feature, index) => (
+                                      <li key={index}>{feature}</li>
+                                    )) 
+                                    : "N/A"}
                                 </ul>
                               </div>
                             </div>
