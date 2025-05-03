@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoanCalculator from "@/components/LoanCalculator";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Eligibility = () => {
   return (
@@ -17,6 +18,13 @@ const Eligibility = () => {
             <p className="text-xl max-w-2xl mx-auto">
               Check your eligibility for various loan products based on your income, employment type, and credit profile.
             </p>
+            <div className="mt-6">
+              <Link to="/bank-comparison">
+                <Button variant="outline" className="bg-white text-brandblue-700 hover:bg-gray-100">
+                  Compare Banks & NBFCs
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
         
@@ -87,8 +95,11 @@ const Eligibility = () => {
                   </div>
                 </div>
                 
-                <div className="mt-12">
+                <div className="mt-12 flex gap-4">
                   <Button className="bg-brandblue-600 hover:bg-brandblue-700">Talk to a Loan Expert</Button>
+                  <Link to="/bank-comparison">
+                    <Button variant="outline">Compare Loan Options</Button>
+                  </Link>
                 </div>
               </div>
               
