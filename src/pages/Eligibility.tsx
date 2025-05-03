@@ -4,8 +4,20 @@ import Footer from "@/components/Footer";
 import LoanCalculator from "@/components/LoanCalculator";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Phone } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const Eligibility = () => {
+  const handleCallExpert = () => {
+    // Use the tel: protocol to initiate a phone call
+    window.location.href = "tel:9176244465";
+    // Show a toast notification
+    toast({
+      title: "Calling Loan Expert",
+      description: "Connecting you with our loan expert at 9176244465",
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -96,7 +108,13 @@ const Eligibility = () => {
                 </div>
                 
                 <div className="mt-12 flex gap-4">
-                  <Button className="bg-brandblue-600 hover:bg-brandblue-700">Talk to a Loan Expert</Button>
+                  <Button 
+                    className="bg-brandblue-600 hover:bg-brandblue-700 flex items-center gap-2"
+                    onClick={handleCallExpert}
+                  >
+                    <Phone size={16} />
+                    Talk to a Loan Expert
+                  </Button>
                   <Link to="/bank-comparison">
                     <Button variant="outline">Compare Loan Options</Button>
                   </Link>
