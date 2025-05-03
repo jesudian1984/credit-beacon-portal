@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { PhoneCall, MessageSquare } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { WhatsApp } from "lucide-react";
 
 const TalkToExpert = () => {
   const handleCallExpert = (e) => {
@@ -98,7 +97,7 @@ const TalkToExpert = () => {
               {/* WhatsApp Card */}
               <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-8 text-center hover:scale-105 transition-transform duration-300">
                 <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-100 mb-6">
-                  <WhatsApp className="h-8 w-8 text-green-600" />
+                  <MessageSquare className="h-8 w-8 text-green-600" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Chat on WhatsApp</h3>
                 <p className="text-gray-600 mb-6">
@@ -108,7 +107,7 @@ const TalkToExpert = () => {
                   onClick={handleWhatsAppChat}
                   className="bg-green-600 hover:bg-green-700 w-full text-lg py-6 flex items-center justify-center gap-2"
                 >
-                  <WhatsApp className="h-5 w-5" />
+                  <MessageSquare className="h-5 w-5" />
                   Chat on WhatsApp
                 </Button>
                 <p className="mt-4 text-sm text-gray-500">Typically replies within minutes</p>
