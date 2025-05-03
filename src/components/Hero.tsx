@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Dialog, 
   DialogContent, 
@@ -15,6 +15,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 
+// Define the application data type
+interface LoanApplication {
+  name: string;
+  phone: string;
+  loanType: string;
+  loanAmount: string;
+  timestamp: string;
+}
+
 const Hero = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -22,6 +31,17 @@ const Hero = () => {
     loanType: "Personal Loan",
     loanAmount: "500000"
   });
+  
+  // Store all applications in localStorage
+  const [applications, setApplications] = useState<LoanApplication[]>([]);
+  
+  // Load applications from localStorage on component mount
+  useEffect(() => {
+    const savedApplications = localStorage.getItem('loanApplications');
+    if (savedApplications) {
+      setApplications(JSON.parse(savedApplications));
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,6 +71,19 @@ const Hero = () => {
       return;
     }
 
+    // Create a new application with timestamp
+    const newApplication = {
+      ...formData,
+      timestamp: new Date().toISOString()
+    };
+
+    // Add to applications list
+    const updatedApplications = [...applications, newApplication];
+    setApplications(updatedApplications);
+    
+    // Save to localStorage
+    localStorage.setItem('loanApplications', JSON.stringify(updatedApplications));
+
     // Success toast
     toast({
       title: "Application submitted successfully!",
@@ -58,9 +91,32 @@ const Hero = () => {
       duration: 5000
     });
 
+    // Clear form
+    setFormData({
+      name: "",
+      phone: "",
+      loanType: formData.loanType,
+      loanAmount: formData.loanAmount
+    });
+
     // Close the dialog by simulating an escape key press
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
   };
+
+  // Function to view the report (can be accessed in development console)
+  const viewApplicationReport = () => {
+    console.log("Loan Application Report:", applications);
+    return applications;
+  };
+
+  // Make the function available globally for admin access
+  useEffect(() => {
+    window.viewLoanApplications = viewApplicationReport;
+    
+    return () => {
+      delete window.viewLoanApplications;
+    };
+  }, [applications]);
 
   return (
     <div className="relative bg-gradient-to-br from-brandblue-50 to-brandblue-100">
