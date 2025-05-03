@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Calculator, InfoIcon, Building, Search, X, Percent, Clock, Shield, DollarSign } from "lucide-react";
+import { Calculator, InfoIcon, Building, X, Percent, Clock, Shield, DollarSign } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { determineCompanyCategory, companySuggestions, findCompanySuggestions, getLoanFeaturesByCompanyCategory } from "@/utils/companyCategories";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { companySuggestions, getLoanFeaturesByCompanyCategory, determineCompanyCategory } from "@/utils/companyCategories";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 // Define types for multiplier tables
@@ -273,11 +271,7 @@ const LoanCalculator = () => {
     }
   };
   
-  // New state for company search
-  const [isOpen, setIsOpen] = useState(false);
-  const [companySuggestionList, setCompanySuggestionList] = useState<string[]>([]);
-  
-  // New state for company features - Setting to false to remove the loan features tab
+  // Setting to false to remove the loan features tab
   const [showCompanyFeatures, setShowCompanyFeatures] = useState(false);
   const [companyFeatures, setCompanyFeatures] = useState<{
     interestRates: { personal: string, home: string, business: string };
@@ -295,57 +289,15 @@ const LoanCalculator = () => {
     }).format(value);
   };
 
-  // Handle company name input and auto-determine category with dropdown
+  // Handle company name input - simplified to not determine category while typing
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setCompanyName(name);
-    // Always keep this false to ensure loan features tab never shows
-    setShowCompanyFeatures(false);
-    
-    // Get suggestions as the user types
-    if (name.trim().length >= 2) {
-      const suggestions = findCompanySuggestions(name);
-      setCompanySuggestionList(suggestions);
-      setIsOpen(suggestions.length > 0);
-    } else {
-      setCompanySuggestionList([]);
-      setIsOpen(false);
-    }
-    
-    if (name.trim() !== "") {
-      const { category, description } = determineCompanyCategory(name);
-      setCompanyCategory(category);
-      setCategoryDescription(description);
-      
-      // Load company loan features but don't show them
-      const features = getLoanFeaturesByCompanyCategory(category);
-      setCompanyFeatures(features);
-    }
-  };
-  
-  // Handle company selection from dropdown
-  const handleCompanySelection = (company: string) => {
-    setCompanyName(company);
-    setIsOpen(false);
-    
-    const { category, description } = determineCompanyCategory(company);
-    setCompanyCategory(category);
-    setCategoryDescription(description);
-    
-    // Get loan features based on company category but don't show them
-    const features = getLoanFeaturesByCompanyCategory(category);
-    setCompanyFeatures(features);
-    // Keep this false to ensure loan features tab never shows
-    setShowCompanyFeatures(false);
-    
-    toast.info(`Company category detected: ${category} - ${description}`);
   };
   
   // Clear company input
   const clearCompanyInput = () => {
     setCompanyName("");
-    setCompanySuggestionList([]);
-    setIsOpen(false);
   };
 
   // Calculate loan details
@@ -457,8 +409,15 @@ const LoanCalculator = () => {
     }
   };
   
-  // Check if the view is income-based or property-based (for home loans)
+  // Check eligibility on button click instead of automatically
   const handleCheckEligibility = () => {
+    // Now determine company category on button click instead of while typing
+    if (companyName) {
+      const { category, description } = determineCompanyCategory(companyName);
+      setCompanyCategory(category);
+      setCategoryDescription(description);
+    }
+    
     calculateEligibility();
     toast.success("Eligibility calculation completed");
   };
@@ -512,69 +471,28 @@ const LoanCalculator = () => {
                   <Building className="h-4 w-4 text-gray-500" />
                 </Label>
                 <div className="relative mt-1">
-                  <Popover open={isOpen} onOpenChange={setIsOpen}>
-                    <PopoverTrigger asChild>
-                      <div className="flex w-full items-center">
-                        <Input
-                          id="company-name"
-                          type="text"
-                          value={companyName}
-                          onChange={handleCompanyNameChange}
-                          placeholder="Enter your company name"
-                          className="w-full pr-10"
-                          onFocus={() => companyName.length >= 2 && setIsOpen(true)}
-                        />
-                        {companyName && (
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="absolute right-10 h-full px-2 py-0"
-                            onClick={clearCompanyInput}
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        )}
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                          <Search className="h-4 w-4 text-gray-400" />
-                        </div>
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0 w-[300px]" align="start">
-                      <Command>
-                        <CommandList>
-                          {companySuggestionList.length > 0 ? (
-                            <CommandGroup>
-                              {companySuggestionList.map((company) => (
-                                <CommandItem 
-                                  key={company} 
-                                  onSelect={() => handleCompanySelection(company)}
-                                  className="cursor-pointer"
-                                >
-                                  {company}
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          ) : (
-                            <CommandEmpty>No companies found.</CommandEmpty>
-                          )}
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
+                  <div className="flex w-full items-center">
+                    <Input
+                      id="company-name"
+                      type="text"
+                      value={companyName}
+                      onChange={handleCompanyNameChange}
+                      placeholder="Enter your company name"
+                      className="w-full pr-10"
+                    />
+                    {companyName && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="absolute right-0 h-full px-2 py-0"
+                        onClick={clearCompanyInput}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
-                {companyName && (
-                  <p className={`text-sm mt-1 ${
-                    companyCategory === 'A' ? 'text-green-600' : 
-                    companyCategory === 'B' ? 'text-blue-600' : 
-                    companyCategory === 'C' ? 'text-amber-600' : 
-                    'text-red-600'
-                  }`}>
-                    Detected as: {companyCategory} - {categoryDescription}
-                  </p>
-                )}
               </div>
-              
-              {/* Removed the Company Features Card that was shown when a company is selected */}
               
               <div>
                 <Label htmlFor="company-category" className="flex items-center gap-2">
@@ -603,11 +521,6 @@ const LoanCalculator = () => {
                       value === 'C' ? 'Regular (SMEs/Government)' :
                       'Others (Small Business/Self-employed)'
                     );
-                    // Update company features when category changes but don't show them
-                    const features = getLoanFeaturesByCompanyCategory(value);
-                    setCompanyFeatures(features);
-                    // Keep this false to ensure loan features tab never shows
-                    setShowCompanyFeatures(false);
                   }}
                 >
                   <SelectTrigger id="company-category" className="mt-1">

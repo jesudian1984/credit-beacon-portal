@@ -3,13 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { findCompanySuggestions, getLoanFeaturesByCompanyCategory, determineCompanyCategory } from "@/utils/companyCategories";
-import { Search, X, ArrowRight, Building, Banknote, Users, ListCheck } from "lucide-react";
+import { getLoanFeaturesByCompanyCategory, determineCompanyCategory } from "@/utils/companyCategories";
+import { ArrowRight, Building, Banknote, Users, ListCheck, X } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,10 +29,6 @@ const CompareLoans = () => {
   const [company2, setCompany2] = useState<string>("");
   const [company1Category, setCompany1Category] = useState<string>("");
   const [company2Category, setCompany2Category] = useState<string>("");
-  const [company1Suggestions, setCompany1Suggestions] = useState<string[]>([]);
-  const [company2Suggestions, setCompany2Suggestions] = useState<string[]>([]);
-  const [isOpen1, setIsOpen1] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
   
   // State for company features
   const [company1Features, setCompany1Features] = useState<any>(null);
@@ -52,81 +46,29 @@ const CompareLoans = () => {
     }
   });
 
-  // Handle company name input and search for the first company
+  // Handle company name input for the first company
   const handleCompany1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setCompany1(name);
-    
-    // Get suggestions as the user types
-    if (name.trim().length >= 2) {
-      const suggestions = findCompanySuggestions(name);
-      setCompany1Suggestions(suggestions);
-      setIsOpen1(suggestions.length > 0);
-    } else {
-      setCompany1Suggestions([]);
-      setIsOpen1(false);
-    }
   };
   
-  // Handle company name input and search for the second company
+  // Handle company name input for the second company
   const handleCompany2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setCompany2(name);
-    
-    // Get suggestions as the user types
-    if (name.trim().length >= 2) {
-      const suggestions = findCompanySuggestions(name);
-      setCompany2Suggestions(suggestions);
-      setIsOpen2(suggestions.length > 0);
-    } else {
-      setCompany2Suggestions([]);
-      setIsOpen2(false);
-    }
-  };
-  
-  // Handle company selection from dropdown for company 1
-  const handleCompany1Selection = (company: string) => {
-    setCompany1(company);
-    setIsOpen1(false);
-    
-    const { category } = determineCompanyCategory(company);
-    setCompany1Category(category);
-    
-    // Get loan features based on company category
-    const features = getLoanFeaturesByCompanyCategory(category);
-    setCompany1Features(features);
-    
-    toast.info(`Company 1 category detected: ${category}`);
-  };
-  
-  // Handle company selection from dropdown for company 2
-  const handleCompany2Selection = (company: string) => {
-    setCompany2(company);
-    setIsOpen2(false);
-    
-    const { category } = determineCompanyCategory(company);
-    setCompany2Category(category);
-    
-    // Get loan features based on company category
-    const features = getLoanFeaturesByCompanyCategory(category);
-    setCompany2Features(features);
-    
-    toast.info(`Company 2 category detected: ${category}`);
   };
   
   // Clear company input fields
   const clearCompany1Input = () => {
     setCompany1("");
-    setCompany1Suggestions([]);
-    setIsOpen1(false);
     setCompany1Features(null);
+    setCompany1Category("");
   };
   
   const clearCompany2Input = () => {
     setCompany2("");
-    setCompany2Suggestions([]);
-    setIsOpen2(false);
     setCompany2Features(null);
+    setCompany2Category("");
   };
   
   // Compare companies with additional criteria
@@ -135,6 +77,17 @@ const CompareLoans = () => {
       toast.error("Please select two companies to compare");
       return;
     }
+    
+    // Manually determine categories on submission instead of as user types
+    const company1Result = determineCompanyCategory(company1);
+    const company2Result = determineCompanyCategory(company2);
+    
+    setCompany1Category(company1Result.category);
+    setCompany2Category(company2Result.category);
+    
+    // Get loan features based on determined company categories
+    setCompany1Features(getLoanFeaturesByCompanyCategory(company1Result.category));
+    setCompany2Features(getLoanFeaturesByCompanyCategory(company2Result.category));
     
     console.log("Form data:", data);
     setShowComparison(true);
@@ -222,64 +175,34 @@ const CompareLoans = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Company 1 Selection */}
+                    {/* Company 1 Selection - Simplified */}
                     <div>
                       <Label htmlFor="company1" className="flex items-center gap-2 mb-2">
                         Company 1 <Building className="h-4 w-4 text-gray-500" />
                       </Label>
                       <div className="relative">
-                        <Popover open={isOpen1} onOpenChange={setIsOpen1}>
-                          <PopoverTrigger asChild>
-                            <div className="flex w-full items-center">
-                              <Input
-                                id="company1"
-                                type="text"
-                                value={company1}
-                                onChange={handleCompany1Change}
-                                placeholder="Enter company name"
-                                className="w-full pr-10"
-                                onFocus={() => company1.length >= 2 && setIsOpen1(true)}
-                              />
-                              {company1 && (
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm" 
-                                  className="absolute right-10 h-full px-2 py-0"
-                                  onClick={clearCompany1Input}
-                                >
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              )}
-                              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                <Search className="h-4 w-4 text-gray-400" />
-                              </div>
-                            </div>
-                          </PopoverTrigger>
-                          <PopoverContent className="p-0 w-[300px]" align="start">
-                            <Command>
-                              <CommandInput placeholder="Search companies..." />
-                              <CommandList>
-                                {company1Suggestions.length > 0 ? (
-                                  <CommandGroup>
-                                    {company1Suggestions.map((company) => (
-                                      <CommandItem 
-                                        key={company} 
-                                        onSelect={() => handleCompany1Selection(company)}
-                                        className="cursor-pointer"
-                                      >
-                                        {company}
-                                      </CommandItem>
-                                    ))}
-                                  </CommandGroup>
-                                ) : (
-                                  <CommandEmpty>No companies found.</CommandEmpty>
-                                )}
-                              </CommandList>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
+                        <div className="flex w-full items-center">
+                          <Input
+                            id="company1"
+                            type="text"
+                            value={company1}
+                            onChange={handleCompany1Change}
+                            placeholder="Enter company name"
+                            className="w-full pr-10"
+                          />
+                          {company1 && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="absolute right-0 h-full px-2 py-0"
+                              onClick={clearCompany1Input}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      {company1 && company1Category && (
+                      {company1Category && showComparison && (
                         <p className={`text-sm mt-1 ${
                           company1Category === 'A' ? 'text-green-600' : 
                           company1Category === 'B' ? 'text-blue-600' : 
@@ -291,64 +214,34 @@ const CompareLoans = () => {
                       )}
                     </div>
                     
-                    {/* Company 2 Selection */}
+                    {/* Company 2 Selection - Simplified */}
                     <div>
                       <Label htmlFor="company2" className="flex items-center gap-2 mb-2">
                         Company 2 <Building className="h-4 w-4 text-gray-500" />
                       </Label>
                       <div className="relative">
-                        <Popover open={isOpen2} onOpenChange={setIsOpen2}>
-                          <PopoverTrigger asChild>
-                            <div className="flex w-full items-center">
-                              <Input
-                                id="company2"
-                                type="text"
-                                value={company2}
-                                onChange={handleCompany2Change}
-                                placeholder="Enter company name"
-                                className="w-full pr-10"
-                                onFocus={() => company2.length >= 2 && setIsOpen2(true)}
-                              />
-                              {company2 && (
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm" 
-                                  className="absolute right-10 h-full px-2 py-0"
-                                  onClick={clearCompany2Input}
-                                >
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              )}
-                              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                <Search className="h-4 w-4 text-gray-400" />
-                              </div>
-                            </div>
-                          </PopoverTrigger>
-                          <PopoverContent className="p-0 w-[300px]" align="start">
-                            <Command>
-                              <CommandInput placeholder="Search companies..." />
-                              <CommandList>
-                                {company2Suggestions.length > 0 ? (
-                                  <CommandGroup>
-                                    {company2Suggestions.map((company) => (
-                                      <CommandItem 
-                                        key={company} 
-                                        onSelect={() => handleCompany2Selection(company)}
-                                        className="cursor-pointer"
-                                      >
-                                        {company}
-                                      </CommandItem>
-                                    ))}
-                                  </CommandGroup>
-                                ) : (
-                                  <CommandEmpty>No companies found.</CommandEmpty>
-                                )}
-                              </CommandList>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
+                        <div className="flex w-full items-center">
+                          <Input
+                            id="company2"
+                            type="text"
+                            value={company2}
+                            onChange={handleCompany2Change}
+                            placeholder="Enter company name"
+                            className="w-full pr-10"
+                          />
+                          {company2 && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="absolute right-0 h-full px-2 py-0"
+                              onClick={clearCompany2Input}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      {company2 && company2Category && (
+                      {company2Category && showComparison && (
                         <p className={`text-sm mt-1 ${
                           company2Category === 'A' ? 'text-green-600' : 
                           company2Category === 'B' ? 'text-blue-600' : 
