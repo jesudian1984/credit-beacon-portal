@@ -144,7 +144,7 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   // "bhel": "C", // Removed duplicate, already in Category A
   "sail": "C",
   "ongc": "C",
-  "ntpc": "C", // This is also in Category A, consider removing one instance
+  // "ntpc": "C", // Removed duplicate, already in Category A
   "bank of india": "C",
   "bank of baroda": "C",
   "canara bank": "C",
@@ -316,7 +316,7 @@ export function getCategoryInfo(category: CompanyCategory): CompanyCategoryInfo 
     case 'D':
       return {
         category: 'D',
-        description: 'Others (Small Business/Self-employed)'
+        description: 'Small Business/Self-employed)'
       };
   }
 }
@@ -365,4 +365,3 @@ const excelData = [
 const addedCompanies = addCompaniesFromBulkData(excelData as Array<{name: string, category: CompanyCategory}>);
 console.log(`Added ${addedCompanies} new companies to the database`);
 */
-

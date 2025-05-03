@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Eligibility from "./pages/Eligibility";
+import Admin from "./pages/Admin";
 
 // Create a placeholder loan type page component
 import LoanTypePage from "./pages/LoanTypePage";
@@ -22,6 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/eligibility" element={<Eligibility />} />
+          <Route path="/admin" element={<Admin />} />
           
           {/* Loan type routes */}
           <Route path="/loans" element={<LoanTypePage title="All Loans" />} />
