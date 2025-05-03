@@ -5,27 +5,27 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 const testimonials = [
   {
     content: "I was able to find a home loan with an interest rate much lower than what my bank offered. The eligibility checker made the process smooth and hassle-free.",
-    author: "Rahul Sharma",
+    author: "Karthik Subramaniam",
     title: "Home Loan Customer",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image: "https://randomuser.me/api/portraits/men/36.jpg",
   },
   {
     content: "CreditBeacon helped me compare multiple personal loan offers from different banks. I saved over ₹50,000 in interest payments by choosing the best option.",
-    author: "Priya Patel",
+    author: "Lakshmi Narayanan",
     title: "Personal Loan Customer",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    image: "https://randomuser.me/api/portraits/women/28.jpg",
   },
   {
     content: "The business loan calculator was incredibly accurate. I received exactly the loan amount I was pre-approved for and the funding came through within 36 hours.",
-    author: "Vikram Singh",
+    author: "Venugopal Iyer",
     title: "Business Owner",
-    image: "https://randomuser.me/api/portraits/men/67.jpg",
+    image: "https://randomuser.me/api/portraits/men/42.jpg",
   },
   {
     content: "As a first-time homebuyer, the mortgage process seemed overwhelming. CreditBeacon made it simple with their eligibility checker and comparison tools.",
-    author: "Ananya Desai",
+    author: "Meenakshi Sundaram",
     title: "Home Loan Customer",
-    image: "https://randomuser.me/api/portraits/women/23.jpg",
+    image: "https://randomuser.me/api/portraits/women/48.jpg",
   },
 ];
 
