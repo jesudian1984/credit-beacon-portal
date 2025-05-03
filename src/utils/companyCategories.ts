@@ -1,6 +1,6 @@
 
 // A utility to determine company categories based on company names
-// This is a simplified implementation with some example companies
+// This is a comprehensive implementation similar to financial aggregators
 
 type CompanyCategory = 'A' | 'B' | 'C' | 'D';
 
@@ -9,9 +9,9 @@ interface CompanyCategoryInfo {
   description: string;
 }
 
-// Pre-defined company category mappings
+// Enhanced pre-defined company category mappings (similar to financial aggregators data)
 const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
-  // Top Tier - Category A
+  // Top Tier - Category A (MNCs, Large Listed Companies)
   "tata": "A",
   "infosys": "A",
   "wipro": "A",
@@ -33,6 +33,45 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "icici": "A",
   "sbi": "A",
   "axis bank": "A",
+  "pwc": "A",
+  "deloitte": "A",
+  "kpmg": "A",
+  "ey": "A",
+  "l&t": "A",
+  "nestle": "A",
+  "unilever": "A",
+  "hindustan unilever": "A",
+  "hul": "A",
+  "hp": "A",
+  "dell": "A",
+  "adobe": "A",
+  "airtel": "A",
+  "bharti": "A",
+  "jio": "A",
+  "netflix": "A",
+  "walmart": "A",
+  "nike": "A",
+  "samsung": "A",
+  "sony": "A",
+  "toyota": "A",
+  "honda": "A",
+  "adani group": "A",
+  "hindustan petroleum": "A",
+  "indian oil": "A",
+  "coal india": "A",
+  "ntpc": "A",
+  "power grid": "A",
+  "bhel": "A",
+  "gail": "A",
+  "maruti suzuki": "A",
+  "hero motocorp": "A",
+  "hdfc bank": "A",
+  "kotak bank": "A",
+  "idfc bank": "A",
+  "yes bank": "A",
+  "indusind bank": "A",
+  "federal bank": "A",
+  "hexaware": "A",
   
   // Mid Tier - Category B
   "mindtree": "B",
@@ -55,6 +94,40 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "swiggy": "B",
   "paytm": "B",
   "ola": "B",
+  "byjus": "B",
+  "oyo": "B",
+  "flipkart": "B",
+  "myntra": "B",
+  "makemytrip": "B",
+  "cleartrip": "B",
+  "yatra": "B",
+  "irctc": "B",
+  "adp": "B",
+  "genpact": "B",
+  "mphasis": "B",
+  "persistent": "B",
+  "cyient": "B",
+  "cgi": "B",
+  "tata power": "B",
+  "tata steel": "B",
+  "suzlon": "B",
+  "godrej": "B",
+  "jubilant": "B",
+  "lupin": "B",
+  "sun pharma": "B",
+  "dr reddy": "B",
+  "apollo hospitals": "B",
+  "fortis": "B",
+  "max healthcare": "B",
+  "policybazaar": "B",
+  "paisabazaar": "B",
+  "bankbazaar": "B",
+  "justdial": "B",
+  "naukri": "B",
+  "infoedge": "B",
+  "eicher motors": "B",
+  "tvs motors": "B",
+  "ashok leyland": "B",
   
   // Regular - Category C
   "state government": "C",
@@ -76,6 +149,38 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "bank of india": "C",
   "bank of baroda": "C",
   "canara bank": "C",
+  "corporation bank": "C",
+  "punjab national bank": "C",
+  "union bank": "C",
+  "indian bank": "C",
+  "allahabad bank": "C",
+  "andhra bank": "C",
+  "central bank": "C",
+  "syndicate bank": "C",
+  "ucb bank": "C",
+  "indian overseas bank": "C",
+  "dena bank": "C",
+  "vijaya bank": "C",
+  "oriental bank": "C",
+  "army": "C",
+  "navy": "C",
+  "air force": "C",
+  "defence": "C",
+  "police": "C",
+  "healthcare department": "C",
+  "university": "C",
+  "college": "C",
+  "school": "C",
+  "teaching": "C",
+  "nursing": "C",
+  "psu": "C",
+  "public sector undertaking": "C",
+  "electricity board": "C",
+  "water board": "C",
+  "transport corporation": "C",
+  "municipal corporation": "C",
+  "zilla parishad": "C",
+  "grameen bank": "C",
   
   // Small Business/Self-employed - Category D
   "self employed": "D",
@@ -88,11 +193,46 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "retail": "D",
   "local business": "D",
   "partnership firm": "D",
-  "micro enterprise": "D"
+  "micro enterprise": "D",
+  "kirana": "D",
+  "restaurant": "D",
+  "cafe": "D",
+  "bakery": "D",
+  "salon": "D",
+  "boutique": "D",
+  "tailor": "D",
+  "carpenter": "D",
+  "plumber": "D",
+  "electrician": "D",
+  "mechanic": "D",
+  "driver": "D",
+  "taxi": "D",
+  "private practice": "D",
+  "clinic": "D",
+  "pharmacy": "D",
+  "medical store": "D",
+  "general store": "D",
+  "provision store": "D",
+  "stationery shop": "D",
+  "hardware store": "D",
+  "food stall": "D",
+  "coaching center": "D",
+  "tuition center": "D",
+  "gym": "D",
+  "fitness center": "D",
+  "yoga center": "D",
+  "property dealer": "D",
+  "broker": "D",
+  "travel agent": "D",
+  "event manager": "D",
+  "wedding planner": "D",
+  "content creator": "D",
+  "youtuber": "D",
+  "influencer": "D"
 };
 
 /**
- * Determine company category based on company name
+ * Enhanced company category detection similar to financial aggregators
  * @param companyName The name of the company to categorize
  * @returns CompanyCategoryInfo object with category and description
  */
@@ -113,11 +253,38 @@ export function determineCompanyCategory(companyName: string): CompanyCategoryIn
     }
   }
   
-  // Check for partial matches
+  // Improved partial match detection with word boundary checking
   for (const [key, value] of Object.entries(COMPANY_MAPPINGS)) {
-    if (normalizedName.includes(key.toLowerCase()) || key.toLowerCase().includes(normalizedName)) {
+    // Match when company name contains the key as a whole word
+    const keyWords = key.toLowerCase().split(' ');
+    const nameWords = normalizedName.split(' ');
+    
+    // Check if any key word appears as a whole word in the company name
+    const hasMatch = keyWords.some(keyWord => 
+      nameWords.some(nameWord => nameWord === keyWord || 
+                   nameWord.startsWith(keyWord + ' ') || 
+                   nameWord.endsWith(' ' + keyWord) ||
+                   nameWord.includes(keyWord))
+    );
+    
+    if (hasMatch) {
       return getCategoryInfo(value);
     }
+  }
+  
+  // Industry-based categorization for unknown companies
+  if (normalizedName.includes('bank') || 
+      normalizedName.includes('insurance') || 
+      normalizedName.includes('finance') || 
+      normalizedName.includes('invest')) {
+    return getCategoryInfo('B');
+  }
+  
+  if (normalizedName.includes('tech') || 
+      normalizedName.includes('software') || 
+      normalizedName.includes('digital') || 
+      normalizedName.includes('info')) {
+    return getCategoryInfo('B');
   }
   
   // Default category if no match found
@@ -159,8 +326,9 @@ export function getCategoryInfo(category: CompanyCategory): CompanyCategoryInfo 
  * List of example companies for each category (for UI suggestions)
  */
 export const companySuggestions = {
-  A: ['Tata Consultancy Services', 'Infosys', 'Reliance Industries', 'HDFC Bank', 'ICICI Bank', 'Google India', 'Microsoft India'],
-  B: ['MindTree', 'Tech Mahindra', 'Capgemini India', 'Aditya Birla Group', 'Kotak Mahindra', 'LTIMindtree'],
+  A: ['Tata Consultancy Services', 'Infosys', 'Reliance Industries', 'HDFC Bank', 'ICICI Bank', 'Google India', 'Microsoft India', 'Hexaware'],
+  B: ['MindTree', 'Tech Mahindra', 'Capgemini India', 'Aditya Birla Group', 'Kotak Mahindra', 'LTIMindtree', 'PaisaBazaar'],
   C: ['State Government', 'Central Government', 'Railways', 'BSNL', 'Bank of India', 'Bank of Baroda', 'Canara Bank'],
   D: ['Self Employed', 'Freelancer', 'Local Retail Shop', 'Small Business Owner', 'Startup']
 };
+
