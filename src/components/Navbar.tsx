@@ -27,7 +27,7 @@ const Navbar = () => {
             <Link to="/eligibility" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
               Check Eligibility
             </Link>
-            <Link to="/compare" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
+            <Link to="/bank-comparison" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
               Compare
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
@@ -85,7 +85,7 @@ const Navbar = () => {
           <Link to="/eligibility" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
             Check Eligibility
           </Link>
-          <Link to="/compare" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+          <Link to="/bank-comparison" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
             Compare
           </Link>
           <Link to="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">

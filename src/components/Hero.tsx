@@ -21,7 +21,7 @@ const Hero = () => {
                   <Link to="/eligibility">Check Eligibility</Link>
                 </Button>
                 <Button variant="outline" className="border-brandblue-600 text-brandblue-600 hover:bg-brandblue-50 px-8 py-3 rounded-md font-medium text-lg">
-                  <Link to="/compare">Compare Loans</Link>
+                  <Link to="/bank-comparison">Compare Loans</Link>
                 </Button>
               </div>
             </div>

@@ -3,12 +3,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Eligibility from "./pages/Eligibility";
 import Admin from "./pages/Admin";
 import Apply from "./pages/Apply";
+import Contact from "./pages/Contact";
 
 // Create a placeholder loan type page component
 import LoanTypePage from "./pages/LoanTypePage";
@@ -27,9 +28,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/eligibility" element={<Eligibility />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/compare" element={<CompareLoans />} />
+          <Route path="/compare" element={<Navigate to="/bank-comparison" />} />
           <Route path="/bank-comparison" element={<BankComparison />} />
           <Route path="/apply" element={<Apply />} />
+          <Route path="/contact" element={<Contact />} />
           
           {/* Loan type routes */}
           <Route path="/loans" element={<LoanTypePage title="All Loans" />} />
