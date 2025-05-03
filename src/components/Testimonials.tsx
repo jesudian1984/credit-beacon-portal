@@ -10,7 +10,7 @@ const testimonials = [
     image: "https://randomuser.me/api/portraits/men/36.jpg",
   },
   {
-    content: "CreditBeacon helped me compare multiple personal loan offers from different banks. I saved over ₹50,000 in interest payments by choosing the best option.",
+    content: "EasyLends helped me compare multiple personal loan offers from different banks. I saved over ₹50,000 in interest payments by choosing the best option.",
     author: "Lakshmi Narayanan",
     title: "Personal Loan Customer",
     image: "https://randomuser.me/api/portraits/women/28.jpg",
