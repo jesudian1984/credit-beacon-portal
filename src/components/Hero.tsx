@@ -1,8 +1,67 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
 
 const Hero = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    loanType: "Personal Loan",
+    loanAmount: "500000"
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Simple validation
+    if (!formData.name || !formData.phone) {
+      toast({
+        title: "Please fill all required fields",
+        description: "Name and phone number are required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Phone validation
+    if (!/^\d{10}$/.test(formData.phone)) {
+      toast({
+        title: "Invalid phone number",
+        description: "Please enter a valid 10-digit phone number",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Success toast
+    toast({
+      title: "Application submitted successfully!",
+      description: `We'll call you at ${formData.phone} shortly to discuss your ${formData.loanType} application.`,
+      duration: 5000
+    });
+
+    // Close the dialog by simulating an escape key press
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+  };
+
   return (
     <div className="relative bg-gradient-to-br from-brandblue-50 to-brandblue-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,7 +105,48 @@ const Hero = () => {
                     <span>₹25,000</span>
                     <span>Up to ₹1 Crore</span>
                   </div>
-                  <Button className="w-full bg-brandgreen-500 hover:bg-brandgreen-600">Apply Now</Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full bg-brandgreen-500 hover:bg-brandgreen-600">Apply Now</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Apply for Personal Loan</DialogTitle>
+                        <DialogDescription>
+                          Fill in your details below to get started with your loan application.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="name">Full Name</Label>
+                          <Input
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Enter your full name"
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="phone">Phone Number</Label>
+                          <Input
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="10-digit mobile number"
+                          />
+                        </div>
+                        <input type="hidden" name="loanType" value="Personal Loan" />
+                        <input type="hidden" name="loanAmount" value="500000" />
+                        <DialogFooter>
+                          <Button type="submit" className="w-full mt-2 bg-brandgreen-500 hover:bg-brandgreen-600">
+                            Submit Application
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
               <div className="absolute inset-0 flex items-center justify-center transform -rotate-3 -translate-x-4 translate-y-6">
@@ -69,7 +169,48 @@ const Hero = () => {
                     <span>₹25,000</span>
                     <span>Up to ₹1 Crore</span>
                   </div>
-                  <Button className="w-full bg-brandblue-600 hover:bg-brandblue-700">Apply Now</Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full bg-brandblue-600 hover:bg-brandblue-700">Apply Now</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Apply for Personal Loan</DialogTitle>
+                        <DialogDescription>
+                          Fill in your details below to get started with your loan application.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="name-blue">Full Name</Label>
+                          <Input
+                            id="name-blue"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Enter your full name"
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="phone-blue">Phone Number</Label>
+                          <Input
+                            id="phone-blue"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="10-digit mobile number"
+                          />
+                        </div>
+                        <input type="hidden" name="loanType" value="Personal Loan" />
+                        <input type="hidden" name="loanAmount" value="500000" />
+                        <DialogFooter>
+                          <Button type="submit" className="w-full mt-2 bg-brandblue-600 hover:bg-brandblue-700">
+                            Submit Application
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>
