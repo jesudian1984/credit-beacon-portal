@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -462,6 +463,7 @@ const LoanCalculator = () => {
                   value={monthlySalary}
                   onChange={(e) => setMonthlySalary(Number(e.target.value))}
                   className="mt-1"
+                  required
                 />
               </div>
               
@@ -479,6 +481,7 @@ const LoanCalculator = () => {
                       onChange={handleCompanyNameChange}
                       placeholder="Enter your company name"
                       className="w-full pr-10"
+                      required
                     />
                     {companyName && (
                       <Button 
@@ -590,6 +593,43 @@ const LoanCalculator = () => {
                     <SelectItem value="KICKER">Kicker</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="required-loan" className="flex items-center gap-2">
+                  Required Loan Amount
+                  <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="required-loan"
+                  type="number"
+                  value={loanAmount}
+                  onChange={(e) => setLoanAmount(Number(e.target.value))}
+                  className="mt-1"
+                  required
+                  placeholder="Enter required loan amount"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="required-tenor" className="flex items-center gap-2">
+                  Required Tenor (Months)
+                  <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="required-tenor"
+                  type="number"
+                  value={loanTerm}
+                  onChange={(e) => setLoanTerm(Number(e.target.value))}
+                  className="mt-1"
+                  required
+                  min={12}
+                  max={60}
+                  placeholder="Enter required tenor in months"
+                />
+                <div className="text-xs text-gray-500 mt-1">
+                  Min: 12 months, Max: {loanType === 'home' ? '360' : '84'} months
+                </div>
               </div>
               
               <div className="md:col-span-2">
