@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoanCalculator from "@/components/LoanCalculator";
@@ -10,11 +9,11 @@ import { toast } from "@/hooks/use-toast";
 const Eligibility = () => {
   const handleCallExpert = () => {
     // Use the tel: protocol to initiate a phone call
-    window.location.href = "tel:9176244465";
+    window.location.href = "tel:8610111595";
     // Show a toast notification
     toast({
       title: "Calling Loan Expert",
-      description: "Connecting you with our loan expert at 9176244465",
+      description: "Connecting you with our loan expert at 8610111595",
     });
   };
 
