@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -8,9 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Calculator, InfoIcon, Building, Search } from "lucide-react";
+import { Calculator, InfoIcon, Building, Search, X } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { determineCompanyCategory, companySuggestions } from "@/utils/companyCategories";
+import { determineCompanyCategory, companySuggestions, findCompanySuggestions } from "@/utils/companyCategories";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 // Define types for multiplier tables
 interface MultiplierValue {
@@ -270,6 +272,10 @@ const LoanCalculator = () => {
     }
   };
   
+  // New state for company search
+  const [isOpen, setIsOpen] = useState(false);
+  const [companySuggestionList, setCompanySuggestionList] = useState<string[]>([]);
+  
   // Format currency
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-IN', { 
@@ -279,10 +285,20 @@ const LoanCalculator = () => {
     }).format(value);
   };
 
-  // Handle company name input and auto-determine category
+  // Handle company name input and auto-determine category with dropdown
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setCompanyName(name);
+    
+    // Get suggestions as the user types
+    if (name.trim().length >= 2) {
+      const suggestions = findCompanySuggestions(name);
+      setCompanySuggestionList(suggestions);
+      setIsOpen(suggestions.length > 0);
+    } else {
+      setCompanySuggestionList([]);
+      setIsOpen(false);
+    }
     
     if (name.trim() !== "") {
       const { category, description } = determineCompanyCategory(name);
@@ -292,6 +308,25 @@ const LoanCalculator = () => {
       // Notify user of the detected category
       toast.info(`Company category detected: ${category} - ${description}`);
     }
+  };
+  
+  // Handle company selection from dropdown
+  const handleCompanySelection = (company: string) => {
+    setCompanyName(company);
+    setIsOpen(false);
+    
+    const { category, description } = determineCompanyCategory(company);
+    setCompanyCategory(category);
+    setCategoryDescription(description);
+    
+    toast.info(`Company category detected: ${category} - ${description}`);
+  };
+  
+  // Clear company input
+  const clearCompanyInput = () => {
+    setCompanyName("");
+    setCompanySuggestionList([]);
+    setIsOpen(false);
   };
 
   // Calculate loan details
@@ -458,17 +493,55 @@ const LoanCalculator = () => {
                   <Building className="h-4 w-4 text-gray-500" />
                 </Label>
                 <div className="relative mt-1">
-                  <Input
-                    id="company-name"
-                    type="text"
-                    value={companyName}
-                    onChange={handleCompanyNameChange}
-                    placeholder="Enter your company name"
-                    className="pr-10"
-                  />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                    <Search className="h-4 w-4 text-gray-400" />
-                  </div>
+                  <Popover open={isOpen} onOpenChange={setIsOpen}>
+                    <PopoverTrigger asChild>
+                      <div className="flex w-full items-center">
+                        <Input
+                          id="company-name"
+                          type="text"
+                          value={companyName}
+                          onChange={handleCompanyNameChange}
+                          placeholder="Enter your company name"
+                          className="w-full pr-10"
+                          onFocus={() => companyName.length >= 2 && setIsOpen(true)}
+                        />
+                        {companyName && (
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="absolute right-10 h-full px-2 py-0"
+                            onClick={clearCompanyInput}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                          <Search className="h-4 w-4 text-gray-400" />
+                        </div>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0 w-[300px]" align="start">
+                      <Command>
+                        <CommandList>
+                          {companySuggestionList.length > 0 ? (
+                            <CommandGroup>
+                              {companySuggestionList.map((company) => (
+                                <CommandItem 
+                                  key={company} 
+                                  onSelect={() => handleCompanySelection(company)}
+                                  className="cursor-pointer"
+                                >
+                                  {company}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          ) : (
+                            <CommandEmpty>No companies found.</CommandEmpty>
+                          )}
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 {companyName && (
                   <p className={`text-sm mt-1 ${
