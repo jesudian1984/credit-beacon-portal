@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -8,7 +7,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold text-white">Credit<span className="text-brandgreen-400">Beacon</span></span>
+              <span className="text-2xl font-bold text-white">Fin<span className="text-brandgreen-400">Grandz</span></span>
             </Link>
             <p className="mt-4 text-gray-300 max-w-md">
               Helping you find the perfect financial solutions with our advanced eligibility calculator and comparison tools.
@@ -67,7 +66,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-12 pt-8 border-t border-gray-800 md:flex md:items-center md:justify-between">
-          <p className="text-base text-gray-400">&copy; 2025 CreditBeacon. All rights reserved.</p>
+          <p className="text-base text-gray-400">&copy; 2025 FinGrandz. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
             <Link to="/terms" className="text-gray-400 hover:text-gray-300 mr-4">Terms of Service</Link>
             <Link to="/privacy" className="text-gray-400 hover:text-gray-300">Privacy Policy</Link>
