@@ -1,6 +1,8 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
 
 const testimonials = [
   {
@@ -30,6 +32,8 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
   return (
     <div className="py-16 bg-brandblue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,13 +57,32 @@ const Testimonials = () => {
                     </div>
                     <p className="text-gray-700 mb-6 flex-grow">{testimonial.content}</p>
                     <div className="flex items-center mt-4">
-                      <img 
-                        src={testimonial.image} 
-                        alt={testimonial.author} 
-                        className="h-12 w-12 rounded-full object-cover"
-                      />
+                      <div 
+                        className="relative"
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                      >
+                        <Avatar className={`h-12 w-12 transition-all duration-300 ${hoveredIndex === index ? 'scale-110 ring-2 ring-brandblue-400' : ''}`}>
+                          <AvatarImage 
+                            src={testimonial.image} 
+                            alt={testimonial.author}
+                            className="object-cover"
+                          />
+                          <AvatarFallback className="bg-brandblue-100 text-brandblue-700">
+                            {testimonial.author.split(' ').map(name => name[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        {hoveredIndex === index && (
+                          <span className="animate-fade-in absolute -bottom-1 -right-1 flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brandblue-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-brandblue-500"></span>
+                          </span>
+                        )}
+                      </div>
                       <div className="ml-4">
-                        <p className="font-medium text-gray-900">{testimonial.author}</p>
+                        <p className={`font-medium text-gray-900 transition-all duration-300 ${hoveredIndex === index ? 'text-brandblue-600' : ''}`}>
+                          {testimonial.author}
+                        </p>
                         <p className="text-sm text-gray-500">{testimonial.title}</p>
                       </div>
                     </div>
