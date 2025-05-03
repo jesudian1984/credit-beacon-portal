@@ -36,15 +36,15 @@ const Hero = () => {
                     </div>
                     <div className="ml-4">
                       <h2 className="font-medium text-gray-800">Personal Loan</h2>
-                      <p className="text-sm text-gray-500">Starting at 9.5% p.a.</p>
+                      <p className="text-sm text-gray-500">Starting at 10.35% p.a.</p>
                     </div>
                   </div>
                   <div className="h-1 w-full bg-gray-200 rounded-full mb-4">
                     <div className="h-1 rounded-full bg-brandgreen-500 w-2/3"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-500 mb-8">
-                    <span>$25,000</span>
-                    <span>36 months</span>
+                    <span>₹25,000</span>
+                    <span>Up to ₹1 Crore</span>
                   </div>
                   <Button className="w-full bg-brandgreen-500 hover:bg-brandgreen-600">Apply Now</Button>
                 </div>
@@ -66,7 +66,7 @@ const Hero = () => {
                     <div className="h-1 rounded-full bg-brandblue-600 w-3/4"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-500 mb-8">
-                    <span>$250,000</span>
+                    <span>₹250,000</span>
                     <span>20 years</span>
                   </div>
                   <Button className="w-full bg-brandblue-600 hover:bg-brandblue-700">Apply Now</Button>
