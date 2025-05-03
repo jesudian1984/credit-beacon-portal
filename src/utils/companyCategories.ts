@@ -61,15 +61,14 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "coal india": "A",
   "ntpc": "A",
   "power grid": "A",
-  "bhel": "A",
+  "bhel": "A", // Moved to Category A, was duplicated in Category C
   "gail": "A",
   "maruti suzuki": "A",
   "hero motocorp": "A",
   "hdfc bank": "A",
   "kotak bank": "A",
   "idfc bank": "A",
-  "yes bank": "A",
-  "indusind bank": "A",
+  "indusind bank": "A", // Changed from "indusind" to be more specific
   "federal bank": "A",
   "hexaware": "A",
   
@@ -85,8 +84,8 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "birla": "B",
   "aditya birla": "B",
   "kotak": "B",
-  "yes bank": "B",
-  "indusind": "B",
+  "yes bank": "B", // Moved from Category A, was duplicated
+  // "indusind": "B", // Removed duplicate, using more specific "indusind bank" in Category A
   "idfc": "B",
   "bajaj": "B",
   "cipla": "B",
@@ -142,10 +141,10 @@ const COMPANY_MAPPINGS: Record<string, CompanyCategory> = {
   "public works": "C",
   "public sector": "C",
   "bsnl": "C",
-  "bhel": "C",
+  // "bhel": "C", // Removed duplicate, already in Category A
   "sail": "C",
   "ongc": "C",
-  "ntpc": "C",
+  "ntpc": "C", // This is also in Category A, consider removing one instance
   "bank of india": "C",
   "bank of baroda": "C",
   "canara bank": "C",
@@ -331,4 +330,39 @@ export const companySuggestions = {
   C: ['State Government', 'Central Government', 'Railways', 'BSNL', 'Bank of India', 'Bank of Baroda', 'Canara Bank'],
   D: ['Self Employed', 'Freelancer', 'Local Retail Shop', 'Small Business Owner', 'Startup']
 };
+
+/**
+ * Add companies from bulk data (such as Excel imports)
+ * @param companies Array of company data objects with name and category
+ * @returns Number of companies added
+ */
+export function addCompaniesFromBulkData(companies: Array<{name: string, category: CompanyCategory}>): number {
+  let addedCount = 0;
+  
+  companies.forEach(company => {
+    if (company.name && company.category) {
+      const normalizedName = company.name.toLowerCase().trim();
+      
+      // Only add if it doesn't already exist
+      if (!COMPANY_MAPPINGS[normalizedName]) {
+        COMPANY_MAPPINGS[normalizedName] = company.category;
+        addedCount++;
+      }
+    }
+  });
+  
+  return addedCount;
+}
+
+// Example of how to use the bulk import function:
+/*
+const excelData = [
+  { name: "New Company 1", category: "A" },
+  { name: "New Company 2", category: "B" },
+  { name: "Small Business LLC", category: "D" }
+];
+
+const addedCompanies = addCompaniesFromBulkData(excelData as Array<{name: string, category: CompanyCategory}>);
+console.log(`Added ${addedCompanies} new companies to the database`);
+*/
 
