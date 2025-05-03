@@ -277,7 +277,7 @@ const LoanCalculator = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [companySuggestionList, setCompanySuggestionList] = useState<string[]>([]);
   
-  // New state for company features
+  // New state for company features - Setting to false to remove the loan features tab
   const [showCompanyFeatures, setShowCompanyFeatures] = useState(false);
   const [companyFeatures, setCompanyFeatures] = useState<{
     interestRates: { personal: string, home: string, business: string };
@@ -299,6 +299,7 @@ const LoanCalculator = () => {
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setCompanyName(name);
+    // Always keep this false to ensure loan features tab never shows
     setShowCompanyFeatures(false);
     
     // Get suggestions as the user types
@@ -316,7 +317,7 @@ const LoanCalculator = () => {
       setCompanyCategory(category);
       setCategoryDescription(description);
       
-      // Load company loan features
+      // Load company loan features but don't show them
       const features = getLoanFeaturesByCompanyCategory(category);
       setCompanyFeatures(features);
     }
@@ -331,10 +332,11 @@ const LoanCalculator = () => {
     setCompanyCategory(category);
     setCategoryDescription(description);
     
-    // Get loan features based on company category
+    // Get loan features based on company category but don't show them
     const features = getLoanFeaturesByCompanyCategory(category);
     setCompanyFeatures(features);
-    setShowCompanyFeatures(true);
+    // Keep this false to ensure loan features tab never shows
+    setShowCompanyFeatures(false);
     
     toast.info(`Company category detected: ${category} - ${description}`);
   };
@@ -572,77 +574,7 @@ const LoanCalculator = () => {
                 )}
               </div>
               
-              {/* Company Features Card - Shows when a company is selected */}
-              {showCompanyFeatures && companyFeatures && (
-                <div className="md:col-span-2 mt-6">
-                  <Card className="border border-gray-200 shadow-sm">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">
-                        Loan Features for {companyName} (Category {companyCategory})
-                      </CardTitle>
-                      <CardDescription>
-                        Compare loan options based on your company profile
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead className="w-[180px]">Feature</TableHead>
-                            <TableHead>Personal Loan</TableHead>
-                            <TableHead>Home Loan</TableHead>
-                            <TableHead>Business Loan</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell className="font-medium flex items-center gap-2">
-                              <Percent className="h-4 w-4 text-gray-500" /> 
-                              Interest Rate
-                            </TableCell>
-                            <TableCell>{companyFeatures.interestRates.personal}</TableCell>
-                            <TableCell className="text-green-600">{companyFeatures.interestRates.home}</TableCell>
-                            <TableCell>{companyFeatures.interestRates.business}</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell className="font-medium flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-gray-500" /> 
-                              Tenure Options
-                            </TableCell>
-                            <TableCell>{companyFeatures.tenureOptions.personal}</TableCell>
-                            <TableCell>{companyFeatures.tenureOptions.home}</TableCell>
-                            <TableCell>{companyFeatures.tenureOptions.business}</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell className="font-medium flex items-center gap-2">
-                              <Shield className="h-4 w-4 text-gray-500" /> 
-                              Preclosure Charges
-                            </TableCell>
-                            <TableCell>{companyFeatures.preclosureCharges.personal}</TableCell>
-                            <TableCell className="text-green-600">{companyFeatures.preclosureCharges.home}</TableCell>
-                            <TableCell>{companyFeatures.preclosureCharges.business}</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell className="font-medium flex items-center gap-2">
-                              <DollarSign className="h-4 w-4 text-gray-500" /> 
-                              Max Eligibility
-                            </TableCell>
-                            <TableCell>{companyFeatures.maxEligibility.personal}</TableCell>
-                            <TableCell>{companyFeatures.maxEligibility.home}</TableCell>
-                            <TableCell>{companyFeatures.maxEligibility.business}</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                      <div className="mt-4 p-3 bg-blue-50 text-blue-800 rounded-md text-sm">
-                        <p className="flex items-center gap-1">
-                          <InfoIcon className="h-4 w-4" /> 
-                          Rates and eligibility may vary based on your specific profile. Submit your application for a personalized offer.
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
+              {/* Removed the Company Features Card that was shown when a company is selected */}
               
               <div>
                 <Label htmlFor="company-category" className="flex items-center gap-2">
@@ -671,10 +603,11 @@ const LoanCalculator = () => {
                       value === 'C' ? 'Regular (SMEs/Government)' :
                       'Others (Small Business/Self-employed)'
                     );
-                    // Update company features when category changes
+                    // Update company features when category changes but don't show them
                     const features = getLoanFeaturesByCompanyCategory(value);
                     setCompanyFeatures(features);
-                    setShowCompanyFeatures(true);
+                    // Keep this false to ensure loan features tab never shows
+                    setShowCompanyFeatures(false);
                   }}
                 >
                   <SelectTrigger id="company-category" className="mt-1">
