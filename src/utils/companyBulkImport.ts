@@ -5,13 +5,18 @@ import COMPANY_MAPPINGS from './companyMappings';
 /**
  * Add companies from bulk data (such as Excel imports)
  * @param companies Array of company data objects with name and category
- * @returns Number of companies added
+ * @returns Number of companies added and the updated company mappings
  */
 export function addCompaniesFromBulkData(companies: Array<{name: string, category: CompanyCategory}>): number {
   let addedCount = 0;
   
   companies.forEach(company => {
     if (company.name && company.category) {
+      // Convert company name to proper case for display
+      const displayName = company.name.split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+      
       const normalizedName = company.name.toLowerCase().trim();
       
       // Only add if it doesn't already exist
@@ -22,6 +27,9 @@ export function addCompaniesFromBulkData(companies: Array<{name: string, categor
       }
     }
   });
+  
+  // Log the updated mappings for debugging
+  console.log('Updated company mappings:', COMPANY_MAPPINGS);
   
   return addedCount;
 }

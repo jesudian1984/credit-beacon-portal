@@ -26,6 +26,7 @@ export const parseExcelFile = async (file: File): Promise<ExcelCompanyData[]> =>
         
         // Convert Excel data to JSON
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        console.log('Raw Excel data:', jsonData);
         
         // Map the data to our expected format
         const companyData = jsonData.map((row: any) => {
@@ -49,8 +50,10 @@ export const parseExcelFile = async (file: File): Promise<ExcelCompanyData[]> =>
           };
         }).filter(item => item.name); // Filter out items with no name
         
+        console.log('Parsed company data:', companyData);
         resolve(companyData);
       } catch (error) {
+        console.error('Error parsing Excel:', error);
         reject(error);
       }
     };
@@ -70,8 +73,11 @@ export const parseExcelFile = async (file: File): Promise<ExcelCompanyData[]> =>
  */
 export const processExcelFile = async (file: File): Promise<number> => {
   try {
+    console.log('Processing Excel file:', file.name);
     const companies = await parseExcelFile(file);
+    console.log(`Parsed ${companies.length} companies from Excel`);
     const addedCount = addCompaniesFromBulkData(companies);
+    console.log(`Added ${addedCount} companies to database`);
     return addedCount;
   } catch (error) {
     console.error('Error processing Excel file:', error);

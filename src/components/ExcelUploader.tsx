@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -65,6 +64,12 @@ const ExcelUploader: React.FC<ExcelUploaderProps> = ({ onSuccess }) => {
       
       setSelectedFile(null);
       setOpen(false);
+      
+      // Refresh the page to ensure dropdown shows the latest companies
+      setTimeout(() => {
+        window.location.href = '/eligibility';
+      }, 1500);
+      
       // Clear the input
       const fileInput = document.getElementById('excel-file') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
