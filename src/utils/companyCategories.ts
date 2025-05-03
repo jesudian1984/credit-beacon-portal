@@ -4,7 +4,7 @@ import { determineCompanyCategory } from './companyRecognition';
 import { getCategoryInfo, companySuggestions } from './categoryDescriptions';
 import { addCompaniesFromBulkData } from './companyBulkImport';
 import COMPANY_MAPPINGS from './companyMappings';
-import { findCompanySuggestions } from './companySearchUtils';
+import { findCompanySuggestions, getLoanFeaturesByCompanyCategory } from './companySearchUtils';
 
 // Export all the functions and constants
 export { 
@@ -13,5 +13,6 @@ export {
   companySuggestions,
   addCompaniesFromBulkData,
   COMPANY_MAPPINGS,
-  findCompanySuggestions
+  findCompanySuggestions,
+  getLoanFeaturesByCompanyCategory
 };

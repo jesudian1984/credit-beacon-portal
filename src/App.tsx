@@ -11,6 +11,7 @@ import Admin from "./pages/Admin";
 
 // Create a placeholder loan type page component
 import LoanTypePage from "./pages/LoanTypePage";
+import CompareLoans from "./pages/CompareLoans";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/eligibility" element={<Eligibility />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/compare" element={<CompareLoans />} />
           
           {/* Loan type routes */}
           <Route path="/loans" element={<LoanTypePage title="All Loans" />} />
