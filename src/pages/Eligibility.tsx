@@ -1,19 +1,34 @@
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoanCalculator from "@/components/LoanCalculator";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Phone } from "lucide-react";
+import { PhoneCall } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const Eligibility = () => {
-  const handleCallExpert = () => {
+  const handleCallExpert = (e) => {
+    e.preventDefault();
+    const phoneNumber = "8610111595";
+    
     // Use the tel: protocol to initiate a phone call
-    window.location.href = "tel:8610111595";
+    const telLink = `tel:${phoneNumber}`;
+    
+    // Create and click an anchor element to trigger the call
+    const a = document.createElement('a');
+    a.href = telLink;
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
     // Show a toast notification
     toast({
       title: "Calling Loan Expert",
-      description: "Connecting you with our loan expert at 8610111595",
+      description: `Connecting you with our loan expert at ${phoneNumber}`,
+      duration: 5000, // Show toast for 5 seconds
     });
   };
 
@@ -111,7 +126,7 @@ const Eligibility = () => {
                     className="bg-brandblue-600 hover:bg-brandblue-700 flex items-center gap-2"
                     onClick={handleCallExpert}
                   >
-                    <Phone size={16} />
+                    <PhoneCall size={16} />
                     Talk to a Loan Expert
                   </Button>
                   <Link to="/bank-comparison">
