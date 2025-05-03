@@ -24,7 +24,19 @@ export function findCompanySuggestions(input: string, limit: number = 6): string
   
   matches.push(...exactMatches, ...startsWithMatches);
   
-  // Then add word-boundary matches (for multi-word companies like "tata consultancy services")
+  // Then add first-word boundary matches (for multi-word companies)
+  if (matches.length < limit) {
+    const firstWordMatches = companyNames
+      .filter(name => 
+        !matches.includes(toProperCase(name)) && // Skip already matched
+        name.split(' ')[0] === searchTerm
+      )
+      .map(name => toProperCase(name));
+    
+    matches.push(...firstWordMatches.slice(0, limit - matches.length));
+  }
+  
+  // Then add word-boundary matches (for multi-word companies like "atam apparels private limited")
   if (matches.length < limit) {
     const wordBoundaryMatches = companyNames
       .filter(name => 
@@ -47,6 +59,21 @@ export function findCompanySuggestions(input: string, limit: number = 6): string
       .map(name => toProperCase(name));
     
     matches.push(...containsMatches.slice(0, limit - matches.length));
+  }
+  
+  // Finally, implement fuzzy matching for partial word matches
+  if (matches.length < limit) {
+    const fuzzyMatches = companyNames
+      .filter(name => {
+        if (matches.includes(toProperCase(name))) return false;
+        
+        // Check if any part of the company name contains the search term
+        const nameParts = name.split(/[\s\-_\.]/); // Split by spaces, hyphens, underscores, periods
+        return nameParts.some(part => part.includes(searchTerm));
+      })
+      .map(name => toProperCase(name));
+    
+    matches.push(...fuzzyMatches.slice(0, limit - matches.length));
   }
   
   return matches.slice(0, limit);
