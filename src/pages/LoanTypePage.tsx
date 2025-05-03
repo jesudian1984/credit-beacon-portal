@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import LoanCalculator from "@/components/LoanCalculator";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Building } from "lucide-react";
 
 interface LoanTypePageProps {
   title: string;
@@ -43,11 +43,17 @@ const LoanTypePage = ({ title }: LoanTypePageProps) => {
             </div>
             
             <div className="mb-12 text-center">
-              <Link to="/eligibility">
-                <Button className="bg-brandblue-600 hover:bg-brandblue-700">
-                  Calculate My Eligibility
-                </Button>
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link to="/eligibility">
+                  <Button className="bg-brandblue-600 hover:bg-brandblue-700">
+                    Calculate My Eligibility
+                  </Button>
+                </Link>
+                <div className="flex items-center text-sm text-gray-600 bg-gray-50 px-4 py-2 rounded-md border border-gray-200">
+                  <Building className="h-4 w-4 mr-2 text-brandblue-600" />
+                  <span>Now with automatic company categorization!</span>
+                </div>
+              </div>
             </div>
             
             {/* Loan Calculator */}

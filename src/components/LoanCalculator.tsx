@@ -8,8 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Calculator, InfoIcon } from "lucide-react";
+import { Calculator, InfoIcon, Building, Search } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { determineCompanyCategory, companySuggestions } from "@/utils/companyCategories";
 
 // Define types for multiplier tables
 interface MultiplierValue {
@@ -32,7 +33,9 @@ const LoanCalculator = () => {
   
   // Enhanced state for detailed eligibility
   const [monthlySalary, setMonthlySalary] = useState<number>(50000);
+  const [companyName, setCompanyName] = useState<string>("");
   const [companyCategory, setCompanyCategory] = useState<string>("A");
+  const [categoryDescription, setCategoryDescription] = useState<string>("Top Tier (MNC/Listed Companies)");
   const [existingObligations, setExistingObligations] = useState<number>(0);
   const [foir, setFoir] = useState<number>(0.5); // FOIR - Fixed Obligation to Income Ratio
   const [eligibilityAmount, setEligibilityAmount] = useState<number>(0);
@@ -276,6 +279,21 @@ const LoanCalculator = () => {
     }).format(value);
   };
 
+  // Handle company name input and auto-determine category
+  const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setCompanyName(name);
+    
+    if (name.trim() !== "") {
+      const { category, description } = determineCompanyCategory(name);
+      setCompanyCategory(category);
+      setCategoryDescription(description);
+      
+      // Notify user of the detected category
+      toast.info(`Company category detected: ${category} - ${description}`);
+    }
+  };
+
   // Calculate loan details
   const calculateLoan = () => {
     const monthlyRate = interestRate / 100 / 12;
@@ -435,6 +453,36 @@ const LoanCalculator = () => {
               </div>
               
               <div>
+                <Label htmlFor="company-name" className="flex items-center gap-2">
+                  Company Name
+                  <Building className="h-4 w-4 text-gray-500" />
+                </Label>
+                <div className="relative mt-1">
+                  <Input
+                    id="company-name"
+                    type="text"
+                    value={companyName}
+                    onChange={handleCompanyNameChange}
+                    placeholder="Enter your company name"
+                    className="pr-10"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <Search className="h-4 w-4 text-gray-400" />
+                  </div>
+                </div>
+                {companyName && (
+                  <p className={`text-sm mt-1 ${
+                    companyCategory === 'A' ? 'text-green-600' : 
+                    companyCategory === 'B' ? 'text-blue-600' : 
+                    companyCategory === 'C' ? 'text-amber-600' : 
+                    'text-red-600'
+                  }`}>
+                    Detected as: {companyCategory} - {categoryDescription}
+                  </p>
+                )}
+              </div>
+              
+              <div>
                 <Label htmlFor="company-category" className="flex items-center gap-2">
                   Company Category
                   <TooltipProvider>
@@ -453,7 +501,15 @@ const LoanCalculator = () => {
                 </Label>
                 <Select 
                   value={companyCategory} 
-                  onValueChange={setCompanyCategory}
+                  onValueChange={(value) => {
+                    setCompanyCategory(value);
+                    setCategoryDescription(
+                      value === 'A' ? 'Top Tier (MNC/Listed Companies)' :
+                      value === 'B' ? 'Mid Tier (Large Private Companies)' :
+                      value === 'C' ? 'Regular (SMEs/Government)' :
+                      'Others (Small Business/Self-employed)'
+                    );
+                  }}
                 >
                   <SelectTrigger id="company-category" className="mt-1">
                     <SelectValue placeholder="Select company category" />
@@ -465,6 +521,9 @@ const LoanCalculator = () => {
                     <SelectItem value="D">D - Others (Small Business/Self-employed)</SelectItem>
                   </SelectContent>
                 </Select>
+                <div className="text-xs text-gray-500 mt-1">
+                  Examples: {companySuggestions[companyCategory as keyof typeof companySuggestions]?.slice(0, 3).join(', ')}
+                </div>
               </div>
               
               <div>
