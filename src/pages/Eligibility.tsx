@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import LoanCalculator from "@/components/LoanCalculator";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { PhoneCall } from "lucide-react";
+import { PhoneCall, MessageSquare } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const Eligibility = () => {
@@ -28,6 +28,25 @@ const Eligibility = () => {
     toast({
       title: "Calling Loan Expert",
       description: `Connecting you with our loan expert at ${phoneNumber}`,
+      duration: 5000, // Show toast for 5 seconds
+    });
+  };
+
+  const handleWhatsAppChat = (e) => {
+    e.preventDefault();
+    const phoneNumber = "8610111595";
+    const message = encodeURIComponent("Hi, I'm interested in checking my loan eligibility. Can you help me?");
+    
+    // Create WhatsApp URL with phone number and pre-filled message
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    
+    // Show a toast notification
+    toast({
+      title: "WhatsApp Chat",
+      description: "Opening WhatsApp chat with our loan expert",
       duration: 5000, // Show toast for 5 seconds
     });
   };
@@ -121,13 +140,20 @@ const Eligibility = () => {
                   </div>
                 </div>
                 
-                <div className="mt-12 flex gap-4">
+                <div className="mt-12 flex gap-4 flex-wrap">
                   <Button 
                     className="bg-brandblue-600 hover:bg-brandblue-700 flex items-center gap-2"
                     onClick={handleCallExpert}
                   >
                     <PhoneCall size={16} />
                     Talk to a Loan Expert
+                  </Button>
+                  <Button 
+                    className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+                    onClick={handleWhatsAppChat}
+                  >
+                    <MessageSquare size={16} />
+                    Chat on WhatsApp
                   </Button>
                   <Link to="/bank-comparison">
                     <Button variant="outline">Compare Loan Options</Button>

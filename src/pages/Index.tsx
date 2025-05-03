@@ -8,7 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { PhoneCall } from "lucide-react";
+import { PhoneCall, MessageSquare } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
@@ -36,18 +36,44 @@ const Index = () => {
     });
   };
 
+  const handleWhatsAppChat = (e) => {
+    e.preventDefault();
+    const phoneNumber = "8610111595";
+    const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
+    
+    // Create WhatsApp URL with phone number and pre-filled message
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    
+    // Show a toast notification
+    toast({
+      title: "WhatsApp Chat",
+      description: "Opening WhatsApp chat with our loan expert",
+      duration: 5000, // Show toast for 5 seconds
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-center gap-4 flex-wrap">
           <Button 
             className="bg-brandblue-600 hover:bg-brandblue-700 flex items-center gap-2"
             onClick={handleCallExpert}
           >
             <PhoneCall size={16} />
             Talk to a Loan Expert
+          </Button>
+          <Button 
+            className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+            onClick={handleWhatsAppChat}
+          >
+            <MessageSquare size={16} />
+            Chat on WhatsApp
           </Button>
         </div>
         <LoanTypes />
