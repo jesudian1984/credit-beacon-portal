@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -45,11 +44,11 @@ const LoanCalculator = () => {
   const loanConfig = {
     personal: {
       minAmount: 10000,
-      maxAmount: 10000000, // Updated from 500000 to 10000000 (1 crore)
+      maxAmount: 10000000, // 1 crore
       minTerm: 12,
-      maxTerm: 60,
+      maxTerm: 84, // Updated from 60 to 84 months
       baseRate: 10.35,
-      amountStep: 50000, // Updated from 10000 to 50000 for easier navigation with larger amounts
+      amountStep: 50000,
       maxFoirByCategory: {
         A: 0.65, // Top tier companies
         B: 0.60, // Mid tier companies
@@ -59,7 +58,7 @@ const LoanCalculator = () => {
     },
     home: {
       minAmount: 500000,
-      maxAmount: 20000000, // Updated from 10000000 to 20000000 (2 crores)
+      maxAmount: 20000000, // 2 crores
       minTerm: 60,
       maxTerm: 360,
       baseRate: 8.40,
@@ -73,7 +72,7 @@ const LoanCalculator = () => {
     },
     business: {
       minAmount: 100000,
-      maxAmount: 15000000, // Updated from 5000000 to 15000000 (1.5 crores)
+      maxAmount: 15000000, // 1.5 crores
       minTerm: 12,
       maxTerm: 84,
       baseRate: 16.00,
