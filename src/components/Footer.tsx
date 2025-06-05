@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -67,7 +66,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-12 pt-8 border-t border-gray-800 md:flex md:items-center md:justify-between">
-          <p className="text-base text-gray-400">&copy; 2025 EasyLends. All rights reserved.</p>
+          <p className="text-base text-gray-400">&copy; 2025 Fingrandz Business Solutions. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
             <Link to="/terms" className="text-gray-400 hover:text-gray-300 mr-4">Terms of Service</Link>
             <Link to="/privacy" className="text-gray-400 hover:text-gray-300">Privacy Policy</Link>
