@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import Admin from "./pages/Admin";
 import Apply from "./pages/Apply";
 import Contact from "./pages/Contact";
 import TalkToExpert from "./pages/TalkToExpert";
+import AboutPage from "./pages/AboutPage";
 
 // Create a placeholder loan type page component
 import LoanTypePage from "./pages/LoanTypePage";
@@ -46,7 +46,7 @@ const App = () => (
           <Route path="/loans/credit-cards" element={<LoanTypePage title="Credit Cards" />} />
           
           {/* New routes for About, Careers */}
-          <Route path="/about" element={<PlaceholderPage title="About Us" />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/careers" element={<PlaceholderPage title="Careers" />} />
           <Route path="/our-team" element={<PlaceholderPage title="Our Team" />} />
           <Route path="/blog" element={<PlaceholderPage title="Blog" />} />
