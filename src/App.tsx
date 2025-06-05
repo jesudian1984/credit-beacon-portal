@@ -17,6 +17,9 @@ import LoanTypePage from "./pages/LoanTypePage";
 import CompareLoans from "./pages/CompareLoans";
 import BankComparison from "./pages/BankComparison";
 
+// Import placeholder pages for new routes
+import PlaceholderPage from "./pages/PlaceholderPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -41,6 +44,13 @@ const App = () => (
           <Route path="/loans/personal" element={<LoanTypePage title="Personal Loans" />} />
           <Route path="/loans/business" element={<LoanTypePage title="Business Loans" />} />
           <Route path="/loans/credit-cards" element={<LoanTypePage title="Credit Cards" />} />
+          
+          {/* New routes for About, Careers */}
+          <Route path="/about" element={<PlaceholderPage title="About Us" />} />
+          <Route path="/careers" element={<PlaceholderPage title="Careers" />} />
+          <Route path="/our-team" element={<PlaceholderPage title="Our Team" />} />
+          <Route path="/blog" element={<PlaceholderPage title="Blog" />} />
+          <Route path="/help-center" element={<PlaceholderPage title="Help Center" />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -1,11 +1,12 @@
 
+
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center">
               <span className="text-2xl font-bold text-white">Easy<span className="text-brandgreen-400">Lends</span></span>
@@ -56,12 +57,22 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Company</h3>
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">About & Careers</h3>
             <ul className="mt-4 space-y-2">
               <li><Link to="/about" className="text-gray-300 hover:text-white">About Us</Link></li>
-              <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact Us</Link></li>
               <li><Link to="/careers" className="text-gray-300 hover:text-white">Careers</Link></li>
+              <li><Link to="/our-team" className="text-gray-300 hover:text-white">Our Team</Link></li>
+              <li><Link to="/blog" className="text-gray-300 hover:text-white">Blog</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Company</h3>
+            <ul className="mt-4 space-y-2">
+              <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact Us</Link></li>
+              <li><Link to="/help-center" className="text-gray-300 hover:text-white">Help Center</Link></li>
               <li><Link to="/privacy" className="text-gray-300 hover:text-white">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-gray-300 hover:text-white">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
@@ -79,3 +90,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
