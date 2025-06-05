@@ -21,6 +21,12 @@ const Navbar = () => {
             <Link to="/" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
               Home
             </Link>
+            <Link to="/about" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
+              About
+            </Link>
+            <Link to="/careers" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
+              Careers
+            </Link>
             <Link to="/loans" className="text-gray-700 hover:text-brandblue-600 px-3 py-2 text-sm font-medium">
               Loans
             </Link>
@@ -78,6 +84,12 @@ const Navbar = () => {
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
             Home
+          </Link>
+          <Link to="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+            About
+          </Link>
+          <Link to="/careers" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+            Careers
           </Link>
           <Link to="/loans" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
             Loans
