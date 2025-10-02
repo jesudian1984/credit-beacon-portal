@@ -14,16 +14,213 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      career_applications: {
+        Row: {
+          cover_letter: string | null
+          created_at: string | null
+          email: string
+          experience: string
+          full_name: string
+          id: string
+          phone: string
+          position: string
+          resume_url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          cover_letter?: string | null
+          created_at?: string | null
+          email: string
+          experience: string
+          full_name: string
+          id?: string
+          phone: string
+          position: string
+          resume_url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          cover_letter?: string | null
+          created_at?: string | null
+          email?: string
+          experience?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          position?: string
+          resume_url?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      loan_applications: {
+        Row: {
+          address: string | null
+          city: string | null
+          company_name: string | null
+          created_at: string | null
+          date_of_birth: string | null
+          email: string
+          employment_type: string | null
+          existing_loans: boolean | null
+          full_name: string
+          id: string
+          loan_amount: number
+          loan_purpose: string | null
+          loan_type: string
+          monthly_salary: number | null
+          phone: string
+          pincode: string | null
+          state: string | null
+          status: string | null
+          tenure_months: number | null
+          updated_at: string | null
+          user_id: string
+          work_experience: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email: string
+          employment_type?: string | null
+          existing_loans?: boolean | null
+          full_name: string
+          id?: string
+          loan_amount: number
+          loan_purpose?: string | null
+          loan_type: string
+          monthly_salary?: number | null
+          phone: string
+          pincode?: string | null
+          state?: string | null
+          status?: string | null
+          tenure_months?: number | null
+          updated_at?: string | null
+          user_id: string
+          work_experience?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email?: string
+          employment_type?: string | null
+          existing_loans?: boolean | null
+          full_name?: string
+          id?: string
+          loan_amount?: number
+          loan_purpose?: string | null
+          loan_type?: string
+          monthly_salary?: number | null
+          phone?: string
+          pincode?: string | null
+          state?: string | null
+          status?: string | null
+          tenure_months?: number | null
+          updated_at?: string | null
+          user_id?: string
+          work_experience?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +347,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
