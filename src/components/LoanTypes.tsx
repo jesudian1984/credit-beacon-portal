@@ -22,7 +22,7 @@ const loanTypes = [
     ),
     title: "Personal Loans",
     description: "Get funds for your personal needs with quick approval and minimal documentation.",
-    rate: "From 10.35% p.a.",
+    rate: "From 9.99% p.a.",
     link: "/loans/personal",
   },
   {
