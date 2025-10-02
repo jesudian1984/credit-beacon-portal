@@ -1,7 +1,6 @@
-
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { 
   Dialog, 
   DialogContent, 
@@ -13,110 +12,76 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
-
-// Define the application data type
-interface LoanApplication {
-  name: string;
-  phone: string;
-  loanType: string;
-  loanAmount: string;
-  timestamp: string;
-}
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     loanType: "Personal Loan",
     loanAmount: "500000"
   });
-  
-  // Store all applications in localStorage
-  const [applications, setApplications] = useState<LoanApplication[]>([]);
-  
-  // Load applications from localStorage on component mount
-  useEffect(() => {
-    const savedApplications = localStorage.getItem('loanApplications');
-    if (savedApplications) {
-      setApplications(JSON.parse(savedApplications));
-    }
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!user) {
+      toast.error("Please login to submit an application");
+      navigate('/auth');
+      return;
+    }
     
     // Simple validation
     if (!formData.name || !formData.phone) {
-      toast({
-        title: "Please fill all required fields",
-        description: "Name and phone number are required",
-        variant: "destructive"
-      });
+      toast.error("Please fill all required fields");
       return;
     }
 
     // Phone validation
     if (!/^\d{10}$/.test(formData.phone)) {
-      toast({
-        title: "Invalid phone number",
-        description: "Please enter a valid 10-digit phone number",
-        variant: "destructive"
-      });
+      toast.error("Please enter a valid 10-digit phone number");
       return;
     }
 
-    // Create a new application with timestamp
-    const newApplication = {
-      ...formData,
-      timestamp: new Date().toISOString()
-    };
+    try {
+      const { error } = await supabase
+        .from('loan_applications')
+        .insert({
+          user_id: user.id,
+          full_name: formData.name,
+          email: user.email || '',
+          phone: formData.phone,
+          loan_type: formData.loanType,
+          loan_amount: parseFloat(formData.loanAmount),
+        });
 
-    // Add to applications list
-    const updatedApplications = [...applications, newApplication];
-    setApplications(updatedApplications);
-    
-    // Save to localStorage
-    localStorage.setItem('loanApplications', JSON.stringify(updatedApplications));
+      if (error) throw error;
 
-    // Success toast
-    toast({
-      title: "Application submitted successfully!",
-      description: `We'll call you at ${formData.phone} shortly to discuss your ${formData.loanType} application.`,
-      duration: 5000
-    });
+      toast.success(`Application submitted successfully! We'll call you at ${formData.phone} shortly.`);
 
-    // Clear form
-    setFormData({
-      name: "",
-      phone: "",
-      loanType: formData.loanType,
-      loanAmount: formData.loanAmount
-    });
+      // Clear form
+      setFormData({
+        name: "",
+        phone: "",
+        loanType: formData.loanType,
+        loanAmount: formData.loanAmount
+      });
 
-    // Close the dialog by simulating an escape key press
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      // Close the dialog by simulating an escape key press
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    } catch (error: any) {
+      toast.error(error.message || "Failed to submit application");
+    }
   };
-
-  // Function to view the report (can be accessed in development console)
-  const viewApplicationReport = () => {
-    console.log("Loan Application Report:", applications);
-    return applications;
-  };
-
-  // Make the function available globally for admin access
-  useEffect(() => {
-    window.viewLoanApplications = viewApplicationReport;
-    
-    return () => {
-      delete window.viewLoanApplications;
-    };
-  }, [applications]);
 
   return (
     <div className="relative bg-gradient-to-br from-brandblue-50 to-brandblue-100">

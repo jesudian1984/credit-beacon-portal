@@ -1,9 +1,63 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import ExcelUploader from '@/components/ExcelUploader';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const Admin = () => {
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  const [checkingAdmin, setCheckingAdmin] = React.useState(true);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!user) {
+        toast.error("Please login to access admin panel");
+        navigate('/auth');
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .eq('role', 'admin')
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+          toast.error("Access denied. Admin privileges required.");
+          navigate('/');
+          return;
+        }
+
+        setIsAdmin(true);
+      } catch (error: any) {
+        toast.error("Failed to verify admin status");
+        navigate('/');
+      } finally {
+        setCheckingAdmin(false);
+      }
+    };
+
+    if (!loading) {
+      checkAdminStatus();
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || checkingAdmin) {
+    return <div className="container mx-auto py-10 px-4">Loading...</div>;
+  }
+
+  if (!isAdmin) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>

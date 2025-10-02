@@ -1,14 +1,16 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PhoneCall, MessageSquare, Mail, MapPin, Clock } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const Contact = () => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,10 +22,7 @@ const Contact = () => {
     e.preventDefault();
     const phoneNumber = "8610111595";
     
-    // Use the tel: protocol to initiate a phone call
     const telLink = `tel:${phoneNumber}`;
-    
-    // Create and click an anchor element to trigger the call
     const a = document.createElement('a');
     a.href = telLink;
     a.setAttribute('target', '_blank');
@@ -32,12 +31,7 @@ const Contact = () => {
     a.click();
     document.body.removeChild(a);
     
-    // Show a toast notification
-    toast({
-      title: "Calling Loan Expert",
-      description: `Connecting you with our loan expert at ${phoneNumber}`,
-      duration: 5000, // Show toast for 5 seconds
-    });
+    toast.success(`Connecting you with our loan expert at ${phoneNumber}`);
   };
 
   const handleWhatsAppChat = (e) => {
@@ -45,18 +39,10 @@ const Contact = () => {
     const phoneNumber = "8610111595";
     const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
     
-    // Create WhatsApp URL with phone number and pre-filled message
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-    
-    // Open WhatsApp in a new tab
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     
-    // Show a toast notification
-    toast({
-      title: "WhatsApp Chat",
-      description: "Opening WhatsApp chat with our loan expert",
-      duration: 5000, // Show toast for 5 seconds
-    });
+    toast.success("Opening WhatsApp chat with our loan expert");
   };
 
   const handleChange = (e) => {
@@ -67,22 +53,38 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", formData);
-    toast({
-      title: "Message Sent",
-      description: "Thank you for contacting us. We'll get back to you shortly!",
-      duration: 5000,
-    });
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      message: ""
-    });
+    
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert({
+          user_id: user?.id || null,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        });
+
+      if (error) throw error;
+
+      toast.success('Message sent successfully! We will get back to you shortly.');
+      
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      });
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to send message');
+    }
   };
 
   return (

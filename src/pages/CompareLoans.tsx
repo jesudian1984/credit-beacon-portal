@@ -89,7 +89,6 @@ const CompareLoans = () => {
     setCompany1Features(getLoanFeaturesByCompanyCategory(company1Result.category));
     setCompany2Features(getLoanFeaturesByCompanyCategory(company2Result.category));
     
-    console.log("Form data:", data);
     setShowComparison(true);
     
     // Calculate eligibility based on salary and obligations

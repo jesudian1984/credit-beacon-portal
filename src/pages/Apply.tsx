@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,12 @@ import { toast } from "sonner";
 import { CheckCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "../components/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const Apply = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -93,22 +96,65 @@ const Apply = () => {
     window.scrollTo(0, 0);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!loading && !user) {
+      toast.error("Please login to apply for a loan");
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user) {
+      toast.error("Please login to submit application");
+      navigate('/auth');
+      return;
+    }
+
     if (!formData.acceptTerms) {
       toast.error("Please accept the terms and conditions");
       return;
     }
 
-    // Here you would normally submit the form data to your backend
-    console.log("Form submitted:", formData);
-    
-    // Show success and redirect
-    toast.success("Application submitted successfully!");
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
+    try {
+      const { error } = await supabase
+        .from('loan_applications')
+        .insert({
+          user_id: user.id,
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          date_of_birth: formData.dateOfBirth || null,
+          company_name: formData.companyName || null,
+          monthly_salary: formData.monthlySalary ? parseFloat(formData.monthlySalary) : null,
+          address: formData.address || null,
+          city: formData.city || null,
+          state: formData.state || null,
+          pincode: formData.pincode || null,
+          employment_type: formData.employmentType || null,
+          work_experience: formData.workExperience || null,
+          loan_type: formData.loanType,
+          loan_amount: parseFloat(formData.loanAmount),
+          loan_purpose: formData.loanPurpose || null,
+          tenure_months: formData.tenureMonths ? parseInt(formData.tenureMonths) : null,
+          existing_loans: formData.existingLoans,
+        });
+
+      if (error) throw error;
+
+      toast.success('Application submitted successfully!');
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to submit application');
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

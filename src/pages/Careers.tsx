@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,9 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, FileText, Users, TrendingUp, Award } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const Careers = () => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -20,8 +22,6 @@ const Careers = () => {
     coverLetter: "",
     resume: null as File | null
   });
-
-  const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -34,24 +34,14 @@ const Careers = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Check file type
       const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
       if (!allowedTypes.includes(file.type)) {
-        toast({
-          title: "Invalid file type",
-          description: "Please upload a PDF or Word document.",
-          variant: "destructive"
-        });
+        toast.error("Please upload a PDF or Word document.");
         return;
       }
       
-      // Check file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: "File too large",
-          description: "Please upload a file smaller than 5MB.",
-          variant: "destructive"
-        });
+        toast.error("Please upload a file smaller than 5MB.");
         return;
       }
 
@@ -62,45 +52,49 @@ const Careers = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.position) {
-      toast({
-        title: "Missing information",
-        description: "Please fill in all required fields.",
-        variant: "destructive"
-      });
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.position || !formData.experience) {
+      toast.error('Please fill in all required fields');
       return;
     }
 
-    if (!formData.resume) {
-      toast({
-        title: "Resume required",
-        description: "Please upload your resume.",
-        variant: "destructive"
-      });
+    if (formData.resume && formData.resume.size > 5 * 1024 * 1024) {
+      toast.error('Resume file size should not exceed 5MB');
       return;
     }
 
-    // Here you would typically send the data to a backend
-    console.log("Form submitted:", formData);
-    
-    toast({
-      title: "Application submitted!",
-      description: "Thank you for your interest. We'll review your application and get back to you soon.",
-    });
+    try {
+      const { error } = await supabase
+        .from('career_applications')
+        .insert({
+          user_id: user?.id || null,
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          position: formData.position,
+          experience: formData.experience,
+          cover_letter: formData.coverLetter || null,
+          resume_url: null,
+        });
 
-    // Reset form
-    setFormData({
-      fullName: "",
-      email: "",
-      phone: "",
-      position: "",
-      experience: "",
-      coverLetter: "",
-      resume: null
-    });
+      if (error) throw error;
+
+      toast.success('Application submitted successfully! We will review it and get back to you soon.');
+      
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        position: "",
+        experience: "",
+        coverLetter: "",
+        resume: null
+      });
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to submit application');
+    }
   };
 
   return (
