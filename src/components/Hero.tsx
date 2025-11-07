@@ -84,154 +84,71 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative bg-gradient-to-br from-brandblue-50 to-brandblue-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-20 md:py-28">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block">Find the Perfect</span>
-                <span className="block gradient-text">Loan for You</span>
+    <div className="relative overflow-hidden bg-gradient-to-br from-primary via-brandblue-600 to-accent">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="py-24 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="text-center md:text-left">
+              <div className="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                <span className="text-white text-sm font-medium">🎯 India's Trusted Loan Platform</span>
+              </div>
+              <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                <span className="block">Your Gateway to</span>
+                <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-brandgreen-200">
+                  Smart Financing
+                </span>
               </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg md:mt-5 md:text-xl">
-                Compare loans from multiple lenders, check your eligibility, and get the best rates. Our advanced calculator helps you find the perfect financial solution.
+              <p className="mt-6 text-lg sm:text-xl text-white/90 max-w-2xl">
+                Get instant loan approvals from top banks. Compare rates, check eligibility, and apply online in minutes for Personal, Home, Business & Doctor Loans.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Button className="bg-brandblue-600 hover:bg-brandblue-700 text-white px-8 py-3 rounded-md font-medium text-lg">
-                  <Link to="/eligibility">Check Eligibility</Link>
+              <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl px-8 py-6 text-lg font-semibold rounded-xl">
+                  <Link to="/eligibility">Check Eligibility Now</Link>
                 </Button>
-                <Button variant="outline" className="border-brandblue-600 text-brandblue-600 hover:bg-brandblue-50 px-8 py-3 rounded-md font-medium text-lg">
+                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm px-8 py-6 text-lg font-semibold rounded-xl">
                   <Link to="/bank-comparison">Compare Loans</Link>
                 </Button>
               </div>
-            </div>
-            <div className="hidden md:block relative h-96">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md transform rotate-2 border border-gray-200">
-                  <div className="flex items-center mb-4">
-                    <div className="h-10 w-10 rounded-full bg-brandblue-100 flex items-center justify-center">
-                      <svg className="h-6 w-6 text-brandblue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div className="ml-4">
-                      <h2 className="font-medium text-gray-800">Personal Loan</h2>
-                      <p className="text-sm text-gray-500">Starting at 10.35% p.a.</p>
-                    </div>
-                  </div>
-                  <div className="h-1 w-full bg-gray-200 rounded-full mb-4">
-                    <div className="h-1 rounded-full bg-brandgreen-500 w-2/3"></div>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-500 mb-8">
-                    <span>₹25,000</span>
-                    <span>Up to ₹1 Crore</span>
-                  </div>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="w-full bg-brandgreen-500 hover:bg-brandgreen-600">Apply Now</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Apply for Personal Loan</DialogTitle>
-                        <DialogDescription>
-                          Fill in your details below to get started with your loan application.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-                        <div className="grid gap-2">
-                          <Label htmlFor="name">Full Name</Label>
-                          <Input
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder="Enter your full name"
-                          />
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="phone">Phone Number</Label>
-                          <Input
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder="10-digit mobile number"
-                          />
-                        </div>
-                        <input type="hidden" name="loanType" value="Personal Loan" />
-                        <input type="hidden" name="loanAmount" value="500000" />
-                        <DialogFooter>
-                          <Button type="submit" className="w-full mt-2 bg-brandgreen-500 hover:bg-brandgreen-600">
-                            Submit Application
-                          </Button>
-                        </DialogFooter>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
+              <div className="mt-8 flex items-center gap-6 justify-center md:justify-start text-white/80 text-sm">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-brandgreen-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>5 Min Process</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-brandgreen-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>100% Secure</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-brandgreen-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>No Hidden Fees</span>
                 </div>
               </div>
-              <div className="absolute inset-0 flex items-center justify-center transform -rotate-3 -translate-x-4 translate-y-6">
-                <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-200">
-                  <div className="flex items-center mb-4">
-                    <div className="h-10 w-10 rounded-full bg-brandblue-100 flex items-center justify-center">
-                      <svg className="h-6 w-6 text-brandblue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div className="ml-4">
-                      <h2 className="font-medium text-gray-800">Personal Loan</h2>
-                      <p className="text-sm text-gray-500">Starting at 10.35% p.a.</p>
-                    </div>
-                  </div>
-                  <div className="h-1 w-full bg-gray-200 rounded-full mb-4">
-                    <div className="h-1 rounded-full bg-brandblue-600 w-3/4"></div>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-500 mb-8">
-                    <span>₹25,000</span>
-                    <span>Up to ₹1 Crore</span>
-                  </div>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="w-full bg-brandblue-600 hover:bg-brandblue-700">Apply Now</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Apply for Personal Loan</DialogTitle>
-                        <DialogDescription>
-                          Fill in your details below to get started with your loan application.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-                        <div className="grid gap-2">
-                          <Label htmlFor="name-blue">Full Name</Label>
-                          <Input
-                            id="name-blue"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder="Enter your full name"
-                          />
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="phone-blue">Phone Number</Label>
-                          <Input
-                            id="phone-blue"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder="10-digit mobile number"
-                          />
-                        </div>
-                        <input type="hidden" name="loanType" value="Personal Loan" />
-                        <input type="hidden" name="loanAmount" value="500000" />
-                        <DialogFooter>
-                          <Button type="submit" className="w-full mt-2 bg-brandblue-600 hover:bg-brandblue-700">
-                            Submit Application
-                          </Button>
-                        </DialogFooter>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
+            </div>
+            <div className="hidden md:flex relative h-full items-center justify-center">
+              <div className="grid grid-cols-2 gap-6 w-full max-w-md">
+                {/* Stats Cards */}
+                <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105">
+                  <div className="text-4xl font-bold text-white mb-2">₹50L+</div>
+                  <div className="text-white/80 text-sm">Loans Disbursed</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105">
+                  <div className="text-4xl font-bold text-white mb-2">10k+</div>
+                  <div className="text-white/80 text-sm">Happy Customers</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105">
+                  <div className="text-4xl font-bold text-white mb-2">8.4%</div>
+                  <div className="text-white/80 text-sm">Lowest Rate</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105">
+                  <div className="text-4xl font-bold text-white mb-2">24 Hr</div>
+                  <div className="text-white/80 text-sm">Quick Approval</div>
                 </div>
               </div>
             </div>

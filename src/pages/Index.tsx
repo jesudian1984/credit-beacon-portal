@@ -2,7 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LoanTypes from "@/components/LoanTypes";
-import LoanCalculator from "@/components/LoanCalculator";
+import QuickEligibilityWidget from "@/components/QuickEligibilityWidget";
 import Features from "@/components/Features";
 import Testimonials from "@/components/Testimonials";
 import CTASection from "@/components/CTASection";
@@ -60,24 +60,26 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-center gap-4 flex-wrap">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex justify-center gap-4 flex-wrap">
           <Button 
-            className="bg-brandblue-600 hover:bg-brandblue-700 flex items-center gap-2"
+            size="lg"
+            className="bg-primary hover:bg-primary/90 flex items-center gap-2 shadow-lg"
             onClick={handleCallExpert}
           >
-            <PhoneCall size={16} />
+            <PhoneCall size={20} />
             Talk to a Loan Expert
           </Button>
           <Button 
-            className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+            size="lg"
+            className="bg-green-600 hover:bg-green-700 flex items-center gap-2 shadow-lg"
             onClick={handleWhatsAppChat}
           >
-            <MessageSquare size={16} />
+            <MessageSquare size={20} />
             Chat on WhatsApp
           </Button>
         </div>
         <LoanTypes />
-        <LoanCalculator />
+        <QuickEligibilityWidget />
         <Features />
         <Testimonials />
         <CTASection />
