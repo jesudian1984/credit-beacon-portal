@@ -3,13 +3,17 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LoanTypes from "@/components/LoanTypes";
 import QuickEligibilityWidget from "@/components/QuickEligibilityWidget";
+import HowItWorks from "@/components/HowItWorks";
+import LoanConsolidation from "@/components/LoanConsolidation";
 import Features from "@/components/Features";
 import Testimonials from "@/components/Testimonials";
+import TrustBadges from "@/components/TrustBadges";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { PhoneCall, MessageSquare } from "lucide-react";
+import { PhoneCall, MessageSquare, ArrowRight } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const handleCallExpert = (e) => {
@@ -71,7 +75,7 @@ const Index = () => {
           </Button>
           <Button 
             size="lg"
-            className="bg-green-600 hover:bg-green-700 flex items-center gap-2 shadow-lg"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground flex items-center gap-2 shadow-lg"
             onClick={handleWhatsAppChat}
           >
             <MessageSquare size={20} />
@@ -80,11 +84,26 @@ const Index = () => {
         </div>
         <LoanTypes />
         <QuickEligibilityWidget />
+        <HowItWorks />
+        <LoanConsolidation />
         <Features />
         <Testimonials />
+        <TrustBadges />
         <CTASection />
       </main>
       <Footer />
+      
+      {/* Fixed Apply Now Button */}
+      <Button 
+        size="lg"
+        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground shadow-2xl animate-pulse hover:animate-none rounded-full px-8 py-6"
+        asChild
+      >
+        <Link to="/apply">
+          Apply Now
+          <ArrowRight className="ml-2 h-5 w-5" />
+        </Link>
+      </Button>
     </div>
   );
 };
