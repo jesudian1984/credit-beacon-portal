@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,10 @@ const LoanCalculator = () => {
   const [eligibilityMessage, setEligibilityMessage] = useState<string>("");
   const [employmentType, setEmploymentType] = useState<string>("GOVT");
   const [riskBand, setRiskBand] = useState<string>("NORMAL");
+  const [hasCalculated, setHasCalculated] = useState<boolean>(false);
+  
+  // Ref for results section
+  const resultsRef = useRef<HTMLDivElement>(null);
   
   // Loan type configuration with updated maximum amounts
   const loanConfig = {
@@ -431,6 +435,7 @@ const LoanCalculator = () => {
     }
     
     calculateEligibility();
+    setHasCalculated(true);
     toast.success("Eligibility calculation completed");
   };
 
@@ -445,6 +450,18 @@ const LoanCalculator = () => {
   useEffect(() => {
     calculateLoan();
   }, [loanAmount, interestRate, loanTerm, loanType]);
+  
+  // Scroll to results when eligibility is calculated
+  useEffect(() => {
+    if (hasCalculated && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start'
+        });
+      }, 100);
+    }
+  }, [hasCalculated, eligibilityAmount]);
 
   // Add a new function to handle the apply now button
   const handleApplyNow = () => {
@@ -670,7 +687,7 @@ const LoanCalculator = () => {
           </CardContent>
         </Card>
         
-        <Card className="max-w-5xl mx-auto">
+        <Card className="max-w-5xl mx-auto" ref={resultsRef}>
           <CardHeader>
             <CardTitle>Loan Calculator & Eligibility Checker</CardTitle>
             <CardDescription>Adjust the parameters to see your estimated loan details</CardDescription>
