@@ -29,7 +29,7 @@ const bankComparisonData: BankLoanData[] = [
     type: 'Bank',
     category: 'Private Bank',
     personalLoan: {
-      interestRate: '10.90% - 16.00% p.a.',
+      interestRate: '9.99% - 16.00% p.a.',
       processingFee: '1.00% - 2.50%',
       maxLoanAmount: '₹ 40 Lakhs',
       maxTenure: '84 Months (7 Years)',
@@ -65,7 +65,7 @@ const bankComparisonData: BankLoanData[] = [
     type: 'Bank',
     category: 'Private Bank',
     personalLoan: {
-      interestRate: '10.90% - 16.50% p.a.',
+      interestRate: '9.99% - 16.50% p.a.',
       processingFee: '1.00% - 2.25%',
       maxLoanAmount: '₹ 50 Lakhs',
       maxTenure: '84 Months (7 Years)',
@@ -101,7 +101,7 @@ const bankComparisonData: BankLoanData[] = [
     type: 'Bank',
     category: 'Private Bank',
     personalLoan: {
-      interestRate: '10.75% - 17.00% p.a.',
+      interestRate: '9.99% - 17.00% p.a.',
       processingFee: '1.00% - 2.00%',
       maxLoanAmount: '₹ 40 Lakhs',
       maxTenure: '84 Months (7 Years)',
@@ -137,7 +137,7 @@ const bankComparisonData: BankLoanData[] = [
     type: 'Bank',
     category: 'Private Bank',
     personalLoan: {
-      interestRate: '10.35% - 18.00% p.a.',
+      interestRate: '9.99% - 18.00% p.a.',
       processingFee: '1.50% - 2.50%',
       maxLoanAmount: '₹ 25 Lakhs',
       maxTenure: '84 Months (7 Years)',
