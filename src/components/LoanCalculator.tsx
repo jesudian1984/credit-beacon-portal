@@ -12,6 +12,8 @@ import { Calculator, InfoIcon, Building, X, Percent, Clock, Shield, DollarSign }
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { companySuggestions, getLoanFeaturesByCompanyCategory, determineCompanyCategory } from "@/utils/companyCategories";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 
 // Define types for multiplier tables
 interface MultiplierValue {
@@ -23,6 +25,7 @@ interface MultiplierCategory {
 }
 
 const LoanCalculator = () => {
+  const navigate = useNavigate();
   const [loanType, setLoanType] = useState<string>("personal");
   const [loanAmount, setLoanAmount] = useState<number>(100000);
   const [interestRate, setInterestRate] = useState<number>(10.35);
@@ -44,6 +47,11 @@ const LoanCalculator = () => {
   const [employmentType, setEmploymentType] = useState<string>("GOVT");
   const [riskBand, setRiskBand] = useState<string>("NORMAL");
   const [hasCalculated, setHasCalculated] = useState<boolean>(false);
+  
+  // Apply now dialog state
+  const [showApplyDialog, setShowApplyDialog] = useState<boolean>(false);
+  const [applicantName, setApplicantName] = useState<string>("");
+  const [applicantPhone, setApplicantPhone] = useState<string>("");
   
   // Ref for results section
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -483,10 +491,36 @@ const LoanCalculator = () => {
   // Add a new function to handle the apply now button
   const handleApplyNow = () => {
     if (isEligible) {
-      window.location.href = '/apply';
+      setShowApplyDialog(true);
     } else {
       toast.error("You are not eligible for this loan. Please adjust your requirements.");
     }
+  };
+  
+  // Handle form submission from dialog
+  const handleSubmitApplication = () => {
+    // Validate inputs
+    if (!applicantName.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+    
+    if (!applicantPhone.trim()) {
+      toast.error("Please enter your phone number");
+      return;
+    }
+    
+    // Basic phone validation (10 digits)
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(applicantPhone.replace(/[\s-]/g, ''))) {
+      toast.error("Please enter a valid 10-digit phone number");
+      return;
+    }
+    
+    // Close dialog and navigate to apply page
+    setShowApplyDialog(false);
+    toast.success("Redirecting to application form...");
+    navigate('/apply');
   };
 
   return (
@@ -825,6 +859,60 @@ const LoanCalculator = () => {
             </Button>
           </CardFooter>
         </Card>
+        
+        {/* Apply Now Dialog */}
+        <Dialog open={showApplyDialog} onOpenChange={setShowApplyDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Quick Application Details</DialogTitle>
+              <DialogDescription>
+                Please provide your name and phone number to proceed with the loan application.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="applicant-name">Full Name *</Label>
+                <Input
+                  id="applicant-name"
+                  placeholder="Enter your full name"
+                  value={applicantName}
+                  onChange={(e) => setApplicantName(e.target.value)}
+                  maxLength={100}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="applicant-phone">Phone Number *</Label>
+                <Input
+                  id="applicant-phone"
+                  type="tel"
+                  placeholder="Enter 10-digit mobile number"
+                  value={applicantPhone}
+                  onChange={(e) => setApplicantPhone(e.target.value)}
+                  maxLength={10}
+                />
+              </div>
+              <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-800">
+                <p className="font-medium">Your Eligibility Summary:</p>
+                <p>Loan Amount: {formatCurrency(eligibilityAmount)}</p>
+                <p>Monthly EMI: {formatCurrency(monthlyPayment)}</p>
+              </div>
+            </div>
+            <DialogFooter className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setShowApplyDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubmitApplication}
+                className="bg-brandblue-600 hover:bg-brandblue-700"
+              >
+                Continue to Application
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
