@@ -434,7 +434,24 @@ const LoanCalculator = () => {
       setCategoryDescription(description);
     }
     
-    calculateEligibility();
+    // Calculate eligibility first
+    const currentConfig = loanConfig[loanType as keyof typeof loanConfig];
+    const salaryBasedFoir = getFoirBySalary(monthlySalary);
+    setFoir(salaryBasedFoir);
+    
+    const availableIncome = monthlySalary - existingObligations;
+    const maxEmi = monthlySalary * salaryBasedFoir - existingObligations;
+    const salaryBand = getSalaryBand(monthlySalary);
+    const multiplier = getMultiplier(employmentType, salaryBand, loanTerm, riskBand);
+    const multiplierEligibility = monthlySalary * multiplier;
+    
+    const monthlyRate = interestRate / 100 / 12;
+    const emiBasedEligibility = maxEmi * (1 - Math.pow(1 + monthlyRate, -loanTerm)) / monthlyRate;
+    const maxLoanEligibility = Math.min(multiplierEligibility, emiBasedEligibility);
+    
+    // Set the loan amount to the calculated eligibility
+    setLoanAmount(Math.floor(maxLoanEligibility));
+    
     setHasCalculated(true);
     toast.success("Eligibility calculation completed");
   };
