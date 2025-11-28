@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,12 +16,13 @@ import { useAuth } from "@/hooks/useAuth";
 
 const Apply = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, loading } = useAuth();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullName: location.state?.fullName || "",
     email: "",
-    phone: "",
+    phone: location.state?.phone || "",
     dateOfBirth: "",
     companyName: "",
     monthlySalary: "",

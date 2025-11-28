@@ -517,10 +517,15 @@ const LoanCalculator = () => {
       return;
     }
     
-    // Close dialog and navigate to apply page
+    // Close dialog and navigate to apply page with pre-filled data
     setShowApplyDialog(false);
     toast.success("Redirecting to application form...");
-    navigate('/apply');
+    navigate('/apply', { 
+      state: { 
+        fullName: applicantName, 
+        phone: applicantPhone 
+      } 
+    });
   };
 
   return (
