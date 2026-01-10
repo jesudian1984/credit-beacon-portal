@@ -20,7 +20,7 @@ const Contact = () => {
 
   const handleCallExpert = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     
     const telLink = `tel:${phoneNumber}`;
     const a = document.createElement('a');
@@ -36,7 +36,7 @@ const Contact = () => {
 
   const handleWhatsAppChat = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
     
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
@@ -218,13 +218,8 @@ const Contact = () => {
                     <div className="ml-4">
                       <h3 className="text-lg font-medium text-gray-900">Call Us</h3>
                       <p className="mt-1 text-gray-600">
-                        <a href="tel:+918610111595" className="text-brandblue-600 hover:text-brandblue-700">
-                          +91 86101 11595
-                        </a>
-                      </p>
-                      <p className="mt-1 text-gray-600">
-                        <a href="tel:+918610111596" className="text-brandblue-600 hover:text-brandblue-700">
-                          +91 86101 11596
+                        <a href="tel:+919176244465" className="text-brandblue-600 hover:text-brandblue-700">
+                          +91 91762 44465
                         </a>
                       </p>
                     </div>

@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast";
 const Eligibility = () => {
   const handleCallExpert = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     
     // Use the tel: protocol to initiate a phone call
     const telLink = `tel:${phoneNumber}`;
@@ -34,7 +34,7 @@ const Eligibility = () => {
 
   const handleWhatsAppChat = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     const message = encodeURIComponent("Hi, I'm interested in checking my loan eligibility. Can you help me?");
     
     // Create WhatsApp URL with phone number and pre-filled message
