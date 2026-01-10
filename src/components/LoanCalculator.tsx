@@ -674,25 +674,6 @@ const LoanCalculator = () => {
                 </Select>
               </div>
               
-              <div>
-                <Label htmlFor="risk-band">Risk Profile</Label>
-                <Select 
-                  value={riskBand} 
-                  onValueChange={setRiskBand}
-                >
-                  <SelectTrigger id="risk-band" className="mt-1">
-                    <SelectValue placeholder="Select risk profile" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="NORMAL">Normal</SelectItem>
-                    <SelectItem value="RISK_BAND">Risk Band (A1-B6)</SelectItem>
-                    <SelectItem value="RISK_BAND_A1_A9">Risk Band A1-A9</SelectItem>
-                    <SelectItem value="RISK_BAND_A1_B2">Risk Band A1-B2</SelectItem>
-                    <SelectItem value="A1_B9_D1">Risk Band A1-B9 & D1</SelectItem>
-                    <SelectItem value="KICKER">Kicker</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
               
               <div>
                 <Label htmlFor="required-loan" className="flex items-center gap-2">
