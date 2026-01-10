@@ -8,7 +8,7 @@ import { toast } from "@/hooks/use-toast";
 const TalkToExpert = () => {
   const handleCallExpert = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     
     // Use the tel: protocol to initiate a phone call
     const telLink = `tel:${phoneNumber}`;
@@ -32,7 +32,7 @@ const TalkToExpert = () => {
 
   const handleWhatsAppChat = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
     
     // Create WhatsApp URL with phone number and pre-filled message
@@ -89,7 +89,7 @@ const TalkToExpert = () => {
                   className="bg-brandblue-600 hover:bg-brandblue-700 w-full text-lg py-6 flex items-center justify-center gap-2"
                 >
                   <PhoneCall className="h-5 w-5" />
-                  Call Now (86101 11595)
+                  Call Now (91762 44465)
                 </Button>
                 <p className="mt-4 text-sm text-gray-500">Available Mon-Sat, 9AM to 6PM</p>
               </div>

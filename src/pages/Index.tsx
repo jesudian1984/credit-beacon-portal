@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 const Index = () => {
   const handleCallExpert = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     
     // Use the tel: protocol to initiate a phone call
     const telLink = `tel:${phoneNumber}`;
@@ -42,7 +42,7 @@ const Index = () => {
 
   const handleWhatsAppChat = (e) => {
     e.preventDefault();
-    const phoneNumber = "8610111595";
+    const phoneNumber = "9176244465";
     const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
     
     // Create WhatsApp URL with phone number and pre-filled message
