@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Shield } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,6 +44,9 @@ const Navbar = () => {
               <Button size="sm" className="ml-4 bg-brandblue-600 hover:bg-brandblue-700">
                 Apply Now
               </Button>
+            </Link>
+            <Link to="/admin" className="text-gray-500 hover:text-brandblue-600 p-2" title="Admin Login">
+              <Shield size={18} />
             </Link>
           </div>
 
@@ -107,6 +111,10 @@ const Navbar = () => {
             <Button className="w-full mt-3 bg-brandblue-600 hover:bg-brandblue-700">
               Apply Now
             </Button>
+          </Link>
+          <Link to="/admin" className="flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50">
+            <Shield size={18} />
+            Admin Login
           </Link>
         </div>
       </div>
