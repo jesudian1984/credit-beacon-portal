@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ExcelUploader from '@/components/ExcelUploader';
+import LeadsTable from '@/components/admin/LeadsTable';
+import LoanApplicationsTable from '@/components/admin/LoanApplicationsTable';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { Users, FileText, Upload } from 'lucide-react';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -62,32 +66,77 @@ const Admin = () => {
     <div className="container mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Company Data Management</CardTitle>
-            <CardDescription>
-              Upload and manage company data for loan eligibility assessment
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Import Company Data</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Upload an Excel file with company data to add to the system. The file should have
-                  columns for "Company Name" and "Category" (A, B, C, or D).
-                </p>
-                <ExcelUploader 
-                  onSuccess={(count) => {
-                    console.log(`Successfully added ${count} companies`);
-                  }}
-                />
+      <Tabs defaultValue="leads" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3 max-w-md">
+          <TabsTrigger value="leads" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            Leads
+          </TabsTrigger>
+          <TabsTrigger value="applications" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            Applications
+          </TabsTrigger>
+          <TabsTrigger value="import" className="flex items-center gap-2">
+            <Upload className="h-4 w-4" />
+            Import
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="leads">
+          <Card>
+            <CardHeader>
+              <CardTitle>Leads Management</CardTitle>
+              <CardDescription>
+                View and manage leads from eligibility checks
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <LeadsTable />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="applications">
+          <Card>
+            <CardHeader>
+              <CardTitle>Loan Applications</CardTitle>
+              <CardDescription>
+                View and manage all loan applications
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <LoanApplicationsTable />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="import">
+          <Card>
+            <CardHeader>
+              <CardTitle>Company Data Management</CardTitle>
+              <CardDescription>
+                Upload and manage company data for loan eligibility assessment
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Import Company Data</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Upload an Excel file with company data to add to the system. The file should have
+                    columns for "Company Name" and "Category" (A, B, C, or D).
+                  </p>
+                  <ExcelUploader 
+                    onSuccess={(count) => {
+                      console.log(`Successfully added ${count} companies`);
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
