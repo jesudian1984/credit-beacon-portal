@@ -55,7 +55,7 @@ const Apply = () => {
 
   const validateCurrentStep = () => {
     if (step === 1) {
-      if (!formData.fullName || !formData.email || !formData.phone) {
+      if (!formData.fullName || !formData.email || !formData.phone || !formData.companyName || !formData.monthlySalary) {
         toast.error("Please fill all required fields");
         return false;
       }
@@ -77,8 +77,8 @@ const Apply = () => {
         return false;
       }
     } else if (step === 3) {
-      if (!formData.employmentType || !formData.companyName || !formData.monthlySalary) {
-        toast.error("Please fill all required fields");
+      if (!formData.employmentType) {
+        toast.error("Please select employment type");
         return false;
       }
     }
