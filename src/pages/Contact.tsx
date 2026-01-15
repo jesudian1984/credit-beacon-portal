@@ -37,7 +37,7 @@ const Contact = () => {
   const handleWhatsAppChat = (e) => {
     e.preventDefault();
     const phoneNumber = "9176244465";
-    const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
+    const message = encodeURIComponent("Hi, I'm interested in learning more about IndiaLoanHub loans. Can you help me?");
     
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
@@ -199,13 +199,13 @@ const Contact = () => {
                     <div className="ml-4">
                       <h3 className="text-lg font-medium text-gray-900">Email Us</h3>
                       <p className="mt-1 text-gray-600">
-                        <a href="mailto:info@easylends.com" className="text-brandblue-600 hover:text-brandblue-700">
-                          info@easylends.com
+                        <a href="mailto:info@indialoanhub.com" className="text-brandblue-600 hover:text-brandblue-700">
+                          info@indialoanhub.com
                         </a>
                       </p>
                       <p className="mt-1 text-gray-600">
-                        <a href="mailto:support@easylends.com" className="text-brandblue-600 hover:text-brandblue-700">
-                          support@easylends.com
+                        <a href="mailto:support@indialoanhub.com" className="text-brandblue-600 hover:text-brandblue-700">
+                          support@indialoanhub.com
                         </a>
                       </p>
                     </div>

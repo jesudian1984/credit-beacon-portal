@@ -12,7 +12,7 @@ const testimonials = [
     image: "https://randomuser.me/api/portraits/men/36.jpg",
   },
   {
-    content: "EasyLends helped me compare multiple personal loan offers from different banks. I saved over ₹50,000 in interest payments by choosing the best option.",
+    content: "IndiaLoanHub helped me compare multiple personal loan offers from different banks. I saved over ₹50,000 in interest payments by choosing the best option.",
     author: "Lakshmi Narayanan",
     title: "Personal Loan Customer",
     image: "https://randomuser.me/api/portraits/women/28.jpg",
@@ -24,7 +24,7 @@ const testimonials = [
     image: "https://randomuser.me/api/portraits/men/42.jpg",
   },
   {
-    content: "As a first-time homebuyer, the mortgage process seemed overwhelming. EasyLends made it simple with their eligibility checker and comparison tools.",
+    content: "As a first-time homebuyer, the mortgage process seemed overwhelming. IndiaLoanHub made it simple with their eligibility checker and comparison tools.",
     author: "Meenakshi Sundaram",
     title: "Home Loan Customer",
     image: "https://randomuser.me/api/portraits/women/48.jpg",
@@ -40,7 +40,7 @@ const Testimonials = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">What Our Customers Say</h2>
           <p className="mt-4 text-lg text-gray-600">
-            Join thousands of satisfied customers who found the perfect loan through EasyLends
+            Join thousands of satisfied customers who found the perfect loan through IndiaLoanHub
           </p>
         </div>
         
