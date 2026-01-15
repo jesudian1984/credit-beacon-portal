@@ -33,7 +33,7 @@ const TalkToExpert = () => {
   const handleWhatsAppChat = (e) => {
     e.preventDefault();
     const phoneNumber = "9176244465";
-    const message = encodeURIComponent("Hi, I'm interested in learning more about EasyLends loans. Can you help me?");
+    const message = encodeURIComponent("Hi, I'm interested in learning more about IndiaLoanHub loans. Can you help me?");
     
     // Create WhatsApp URL with phone number and pre-filled message
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
