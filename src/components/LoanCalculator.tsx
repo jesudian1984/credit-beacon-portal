@@ -36,11 +36,15 @@ const LoanCalculator = () => {
   const [isEligible, setIsEligible] = useState<boolean>(true);
   
   // Enhanced state for detailed eligibility
-  const [monthlySalary, setMonthlySalary] = useState<number>(50000);
+  const [monthlySalary, setMonthlySalary] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
   const [companyCategory, setCompanyCategory] = useState<string>("A");
   const [categoryDescription, setCategoryDescription] = useState<string>("Top Tier (MNC/Listed Companies)");
-  const [existingObligations, setExistingObligations] = useState<number>(0);
+  const [existingObligations, setExistingObligations] = useState<string>("");
+  
+  // Helper functions to get numeric values
+  const getMonthlySalaryNum = () => Number(monthlySalary) || 0;
+  const getExistingObligationsNum = () => Number(existingObligations) || 0;
   const [foir, setFoir] = useState<number>(0.5); // FOIR - Fixed Obligation to Income Ratio
   const [eligibilityAmount, setEligibilityAmount] = useState<number>(0);
   const [eligibilityMessage, setEligibilityMessage] = useState<string>("");
@@ -388,27 +392,29 @@ const LoanCalculator = () => {
   // Calculate eligibility based on company category, salary, obligations, tenor and FOIR
   const calculateEligibility = () => {
     const currentConfig = loanConfig[loanType as keyof typeof loanConfig];
+    const salaryNum = getMonthlySalaryNum();
+    const obligationsNum = getExistingObligationsNum();
     
     // Get salary-based FOIR instead of company category based FOIR
-    const salaryBasedFoir = getFoirBySalary(monthlySalary);
+    const salaryBasedFoir = getFoirBySalary(salaryNum);
     
     // Set the current FOIR value for display purposes
     setFoir(salaryBasedFoir);
     
     // Calculate monthly available income after existing obligations
-    const availableIncome = monthlySalary - existingObligations;
+    const availableIncome = salaryNum - obligationsNum;
     
     // Calculate maximum EMI allowed based on salary-based FOIR
-    const maxEmi = monthlySalary * salaryBasedFoir - existingObligations;
+    const maxEmi = salaryNum * salaryBasedFoir - obligationsNum;
     
     // Get appropriate salary band
-    const salaryBand = getSalaryBand(monthlySalary);
+    const salaryBand = getSalaryBand(salaryNum);
     
     // Get multiplier based on employment type, salary band and loan term
     const multiplier = getMultiplier(employmentType, salaryBand, loanTerm, riskBand);
     
     // Calculate eligibility using multiplier (traditional bank method)
-    const multiplierEligibility = monthlySalary * multiplier;
+    const multiplierEligibility = salaryNum * multiplier;
     
     // Calculate maximum loan eligibility using the EMI formula (alternative method)
     const monthlyRate = interestRate / 100 / 12;
@@ -442,16 +448,19 @@ const LoanCalculator = () => {
       setCategoryDescription(description);
     }
     
+    const salaryNum = getMonthlySalaryNum();
+    const obligationsNum = getExistingObligationsNum();
+    
     // Calculate eligibility first
     const currentConfig = loanConfig[loanType as keyof typeof loanConfig];
-    const salaryBasedFoir = getFoirBySalary(monthlySalary);
+    const salaryBasedFoir = getFoirBySalary(salaryNum);
     setFoir(salaryBasedFoir);
     
-    const availableIncome = monthlySalary - existingObligations;
-    const maxEmi = monthlySalary * salaryBasedFoir - existingObligations;
-    const salaryBand = getSalaryBand(monthlySalary);
+    const availableIncome = salaryNum - obligationsNum;
+    const maxEmi = salaryNum * salaryBasedFoir - obligationsNum;
+    const salaryBand = getSalaryBand(salaryNum);
     const multiplier = getMultiplier(employmentType, salaryBand, loanTerm, riskBand);
-    const multiplierEligibility = monthlySalary * multiplier;
+    const multiplierEligibility = salaryNum * multiplier;
     
     const monthlyRate = interestRate / 100 / 12;
     const emiBasedEligibility = maxEmi * (1 - Math.pow(1 + monthlyRate, -loanTerm)) / monthlyRate;
@@ -554,14 +563,15 @@ const LoanCalculator = () => {
                   id="monthly-salary"
                   type="number"
                   value={monthlySalary}
-                  onChange={(e) => setMonthlySalary(Number(e.target.value))}
+                  onChange={(e) => setMonthlySalary(e.target.value)}
                   className="mt-1"
                   required
+                  placeholder="Enter your monthly salary"
                 />
                 <div className="text-xs text-gray-500 mt-1">
                   <span className="font-semibold">FOIR eligibility: </span>
-                  {monthlySalary < 40000 ? "50% of income" : 
-                   monthlySalary < 50000 ? "60% of income" : 
+                  {getMonthlySalaryNum() < 40000 ? "50% of income" : 
+                   getMonthlySalaryNum() < 50000 ? "60% of income" : 
                    "70% of income"}
                 </div>
               </div>
@@ -646,8 +656,9 @@ const LoanCalculator = () => {
                   id="existing-emi"
                   type="number"
                   value={existingObligations}
-                  onChange={(e) => setExistingObligations(Number(e.target.value))}
+                  onChange={(e) => setExistingObligations(e.target.value)}
                   className="mt-1"
+                  placeholder="Enter existing EMIs (if any)"
                 />
               </div>
               
