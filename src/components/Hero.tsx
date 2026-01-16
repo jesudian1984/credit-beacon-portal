@@ -143,7 +143,7 @@ const Hero = () => {
                   <div className="text-white/80 text-sm">Happy Customers</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105">
-                  <div className="text-4xl font-bold text-white mb-2">8.4%</div>
+                  <div className="text-4xl font-bold text-white mb-2">7.1%</div>
                   <div className="text-white/80 text-sm">Lowest Rate</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105">

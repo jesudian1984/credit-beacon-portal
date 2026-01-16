@@ -100,7 +100,7 @@ export function getLoanFeaturesByCompanyCategory(category: string): {
 } {
   const baseInterestRates = {
     personal: "10.35% - 12.50%",
-    home: "8.40% - 9.25%",
+    home: "7.10% - 9.25%",
     business: "16.00% - 18.50%",
   };
   
