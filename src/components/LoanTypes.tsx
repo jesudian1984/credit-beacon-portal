@@ -26,7 +26,7 @@ const loanTypes = [
     title: "Home Loans",
     description: "Fulfill your dream of owning a home with competitive interest rates and flexible repayment options up to 30 years.",
     benefits: ["Up to ₹2 Crores", "Tenure up to 30 years", "Tax benefits available"],
-    rate: "8.40% p.a.",
+    rate: "7.10% p.a.",
     link: "/loans/home",
     gradient: "from-accent to-brandgreen-600",
   },
