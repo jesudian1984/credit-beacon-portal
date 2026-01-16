@@ -81,7 +81,7 @@ const LoanCalculator = () => {
       maxAmount: 20000000, // 2 crores
       minTerm: 60,
       maxTerm: 360,
-      baseRate: 8.40,
+      baseRate: 7.10,
       amountStep: 100000,
       maxFoirByCategory: {
         A: 0.75,
