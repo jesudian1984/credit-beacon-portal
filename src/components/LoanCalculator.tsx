@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Calculator, InfoIcon, Building, X, Percent, Clock, Shield, IndianRupee } from "lucide-react";
+import { Calculator, InfoIcon, Building, X, Percent, Clock, Shield } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { companySuggestions, getLoanFeaturesByCompanyCategory, determineCompanyCategory } from "@/utils/companyCategories";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
